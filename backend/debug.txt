@@ -1,0 +1,10 @@
+file:///C:/Users/MOHAMMED/Desktop/sit%20fati/backend/server.js:19
+import adminRoutes from './routes/adminRoutes.js';
+       ^^^^^^^^^^^
+SyntaxError: The requested module './routes/adminRoutes.js' does not provide an export named 'default'
+    at #_instantiate (node:internal/modules/esm/module_job:254:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:369:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:671:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.11.1
