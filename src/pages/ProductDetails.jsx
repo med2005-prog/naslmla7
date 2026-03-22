@@ -309,44 +309,6 @@ const ProductDetails = () => {
       )}
 
 
-      {/* Related Products */}
-      <div className="container" style={{ padding: '0 1.5rem 4rem' }}>
-        <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '2rem' }}>منتجات قد تعجبك</h3>
-        <div className="grid-products">
-          {products
-            .filter(p => p.category === product.category && p._id !== product.id)
-            .slice(0, 3)
-            .map(relatedProduct => (
-               <div key={relatedProduct.id} className="card fade-in">
-                <Link to={`/product/${relatedProduct.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                  <div style={{ height: '250px', overflow: 'hidden', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img 
-                      src={relatedProduct.image} 
-                      alt={relatedProduct.name} 
-                      style={{ width: '100%', height: '100%', objectFit: 'contain', transition: 'transform 0.3s ease' }}
-                      onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
-                      onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
-                    />
-                  </div>
-                  <div style={{ padding: '1.5rem' }}>
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.5rem' }}>{relatedProduct.name}</h3>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem', display: '-webkit-box', WebkitLineClamp: '2', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                      {relatedProduct.description}
-                    </p>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: '1.25rem', fontWeight: '800', color: 'var(--primary)' }}>
-                        <span className="numerals">{relatedProduct.price}</span> MAD
-                      </span>
-                      <span className="btn-icon">
-                        <ShoppingCart size={18} />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            ))}
-        </div>
-      </div>
       <style>{`
         .product-title {
           font-size: 2.5rem;
