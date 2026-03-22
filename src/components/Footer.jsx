@@ -43,7 +43,7 @@ const Footer = () => {
               تواصل معنا
             </h4>
             <a 
-              href="https://www.instagram.com/nas.lmlah?igsh=OWhzemhyaWZmczE=" 
+              href="https://www.instagram.com/nas.lmla7?igsh=OWhzemhyaWZmczE=" 
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', marginBottom: '0.5rem' }}
