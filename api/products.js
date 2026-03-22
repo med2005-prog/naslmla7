@@ -1,40 +1,48 @@
-import mongoose from 'mongoose';
+// Minimal self-contained API for Vercel Serverless
+let mongoose;
+try {
+  mongoose = require('mongoose');
+} catch (e) {
+  // Will be handled in the handler
+}
 
 // MongoDB Connection with caching
 let cachedDb = null;
+let Product = null;
 
 async function connectDB() {
-  if (cachedDb) {
+  if (cachedDb && cachedDb.connection.readyState === 1) {
     return cachedDb;
   }
   
-  const db = await mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+  const db = await mongoose.connect(process.env.MONGODB_URI);
+  cachedDb = db;
+  
+  // Define schema inside function to avoid issues
+  const ProductSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+    description: String,
+    fullDescription: String,
+    category: String,
+    image: String,
+    images: [String],
+    videoUrl: String,
+    hasPromo: { type: Boolean, default: false },
+    promoPrice: Number,
+    promoEndDate: Date,
+    createdBy: String,
+    createdAt: { type: Date, default: Date.now }
   });
   
-  cachedDb = db;
-  console.log('MongoDB Connected');
+  Product = mongoose.models.Product || mongoose.model('Product', ProductSchema);
+  
   return db;
 }
 
-// Product Schema
-const ProductSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  price: { type: Number, required: true },
-  description: String,
-  fullDescription: String,
-  images: [String],
-  videoUrl: String,
-  hasPromotion: { type: Boolean, default: false },
-  createdAt: { type: Date, default: Date.now }
-});
-
-const Product = mongoose.models.Product || mongoose.model('Product', ProductSchema);
-
 // API Handler
 export default async function handler(req, res) {
-  // CORS Headers (set first)
+  // CORS Headers (set first - before any other code)
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -45,22 +53,35 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
+  // Check if mongoose loaded
+  if (!mongoose) {
+    return res.status(500).json({
+      success: false,
+      error: 'Mongoose module failed to load',
+      note: 'Check package.json has mongoose as dependency'
+    });
+  }
+
+  // Check MONGODB_URI before connecting
+  if (!process.env.MONGODB_URI) {
+    return res.status(500).json({
+      success: false,
+      error: 'MONGODB_URI environment variable is not set',
+      note: 'Add MONGODB_URI in Vercel Dashboard -> Settings -> Environment Variables',
+      availableEnvVars: Object.keys(process.env).filter(k => k.includes('MONGO') || k.includes('DB'))
+    });
+  }
+
   // Connect to database with error handling
   try {
-    if (!process.env.MONGODB_URI) {
-      return res.status(500).json({
-        success: false,
-        error: 'MONGODB_URI environment variable is not set',
-        note: 'Please add MONGODB_URI in Vercel Dashboard -> Settings -> Environment Variables'
-      });
-    }
     await connectDB();
   } catch (dbError) {
-    console.error('MongoDB Connection Error:', dbError.message);
+    console.error('MongoDB Connection Error:', dbError);
     return res.status(500).json({
       success: false,
       error: dbError.message,
       errorType: dbError.name,
+      stack: dbError.stack?.substring(0, 500),
       note: 'MongoDB connection failed. Check: 1) MONGODB_URI is correct, 2) IP 0.0.0.0/0 is whitelisted in MongoDB Atlas'
     });
   }
