@@ -1,17 +1,12 @@
-// Minimal self-contained API for Vercel Serverless
-let mongoose;
-try {
-  mongoose = require('mongoose');
-} catch (e) {
-  // Will be handled in the handler
-}
+// Vercel Serverless API for Products - ES Modules
+import mongoose from 'mongoose';
 
 // MongoDB Connection with caching
 let cachedDb = null;
 let Product = null;
 
 async function connectDB() {
-  if (cachedDb && cachedDb.connection.readyState === 1) {
+  if (cachedDb && mongoose.connection.readyState === 1) {
     return cachedDb;
   }
   
@@ -53,15 +48,6 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  // Check if mongoose loaded
-  if (!mongoose) {
-    return res.status(500).json({
-      success: false,
-      error: 'Mongoose module failed to load',
-      note: 'Check package.json has mongoose as dependency'
-    });
-  }
-
   // Check MONGODB_URI before connecting
   if (!process.env.MONGODB_URI) {
     return res.status(500).json({
@@ -81,7 +67,6 @@ export default async function handler(req, res) {
       success: false,
       error: dbError.message,
       errorType: dbError.name,
-      stack: dbError.stack?.substring(0, 500),
       note: 'MongoDB connection failed. Check: 1) MONGODB_URI is correct, 2) IP 0.0.0.0/0 is whitelisted in MongoDB Atlas'
     });
   }
