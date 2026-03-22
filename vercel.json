@@ -4,22 +4,32 @@
     {
       "src": "backend/server.js",
       "use": "@vercel/node"
-    },
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "/api/auth/(.*)",
       "dest": "/backend/server.js"
     },
     {
-      "handle": "filesystem"
+      "src": "/api/products/(.*)",
+      "dest": "/backend/server.js"
+    },
+    {
+      "src": "/api/products",
+      "dest": "/backend/server.js"
+    },
+    {
+      "src": "/api/orders/(.*)",
+      "dest": "/backend/server.js"
+    },
+    {
+      "src": "/api/health",
+      "dest": "/backend/server.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/server.js"
     },
     {
       "src": "/(.*)",
