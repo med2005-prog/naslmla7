@@ -72,16 +72,27 @@ export default async function handler(req, res) {
   }
   
   try {
-    // GET - Get all products
+    // GET - Get all products or single product by ID
     if (req.method === 'GET') {
-            const { id } = req.query;
+      const { id } = req.query;
+      
       if (id) {
+        // Validate MongoDB ObjectId format
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+          return res.status(400).json({
+            success: false,
+            error: 'Invalid product ID format',
+            message: 'The provided ID is not a valid MongoDB ObjectId'
+          });
+        }
+        
         // Get single product by ID
         const product = await Product.findById(id);
         if (!product) {
           return res.status(404).json({
             success: false,
-            error: 'Product not found'
+            error: 'Product not found',
+            message: `No product found with ID: ${id}`
           });
         }
         return res.status(200).json({
@@ -89,6 +100,7 @@ export default async function handler(req, res) {
           data: product
         });
       }
+      
       // Get all products
       const products = await Product.find().sort({ createdAt: -1 });
       return res.status(200).json({ 
@@ -121,6 +133,15 @@ export default async function handler(req, res) {
         });
       }
       
+      // Validate MongoDB ObjectId format
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid product ID format',
+          message: 'The provided ID is not a valid MongoDB ObjectId'
+        });
+      }
+      
       const product = await Product.findByIdAndUpdate(id, req.body, { 
         new: true,
         runValidators: true 
@@ -148,6 +169,15 @@ export default async function handler(req, res) {
         return res.status(400).json({ 
           success: false, 
           message: 'Product ID is required' 
+        });
+      }
+      
+      // Validate MongoDB ObjectId format
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid product ID format',
+          message: 'The provided ID is not a valid MongoDB ObjectId'
         });
       }
       

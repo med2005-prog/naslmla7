@@ -99,7 +99,7 @@ const Home = () => {
               <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem', color: 'var(--text-secondary)' }}>
                 <p>لا توجد منتجات حالياً</p>
                 <div style={{ marginTop: '1rem' }}>
-                  <img src="/nas_logo.png" alt="شعار" style={{ opacity: 0.1, width: '100px' }} />
+                  <img src="/nas_logo.png" alt="لوجو NasLmla7 - متجر إلكتروني مغربي للتسوق أونلاين" style={{ opacity: 0.1, width: '100px' }} />
                 </div>
               </div>
             )}
