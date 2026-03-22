@@ -61,11 +61,13 @@ export default async function handler(req, res) {
     
     // POST - Add new product
     if (req.method === 'POST') {
+      console.log('[API DEBUG] Creating product:', Object.keys(req.body));
       const product = await Product.create(req.body);
+      console.log('[API DEBUG] Product created:', product._id);
       return res.status(201).json({ 
         success: true, 
         data: product,
-        message: 'Product added successfully' 
+        message: 'Product saved to MongoDB Atlas' 
       });
     }
     

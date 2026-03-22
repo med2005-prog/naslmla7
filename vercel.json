@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/server.js",
+      "src": "api/**/*.js",
       "use": "@vercel/node"
     },
     {
@@ -21,17 +21,10 @@
       "permanent": true
     }
   ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/backend/server.js"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+  "rewrites": [
+    { "source": "/api/products", "destination": "/api/products" },
+    { "source": "/api/products/:id", "destination": "/api/products?id=:id" },
+    { "source": "/api/auth/login", "destination": "/api/auth" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
