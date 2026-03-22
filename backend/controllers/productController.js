@@ -53,7 +53,7 @@ export const createProduct = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      message: 'تم إضافة المنتج بنجاح',
+      message: 'Product saved to MongoDB Atlas',
       data: product
     });
   } catch (error) {

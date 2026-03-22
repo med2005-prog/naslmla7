@@ -181,7 +181,13 @@ const Admin = () => {
             setProducts(updatedProducts);
             setGlobalProducts(updatedProducts);
             window.dispatchEvent(new Event('productsUpdated'));
-            alert('تم تعديل المنتج بنجاح!');
+            // Clear localStorage fallback on successful API update
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+              const storageKey = `products_${userEmail}`;
+              localStorage.removeItem(storageKey);
+            }
+            alert('Product updated in MongoDB Atlas');
         } catch (apiErr) {
             console.error('API Update failed, updating locally', apiErr);
             const updatedProducts = products.map(p => p.id === editingProduct.id ? { ...processedFormData, id: editingProduct.id } : p);
@@ -194,7 +200,13 @@ const Admin = () => {
             setProducts(updatedProducts);
             setGlobalProducts(updatedProducts);
             window.dispatchEvent(new Event('productsUpdated'));
-            alert('تم إضافة المنتج بنجاح! متصل بالخادم.');
+            // Clear localStorage fallback on successful API save (201)
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+              const storageKey = `products_${userEmail}`;
+              localStorage.removeItem(storageKey);
+            }
+            alert('Product saved to MongoDB Atlas');
         } catch (apiErr) {
             console.error('API Create failed, saving locally', apiErr);
             const newProduct = { ...processedFormData, id: Date.now() };
