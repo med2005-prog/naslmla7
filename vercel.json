@@ -13,6 +13,14 @@
       }
     }
   ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.naslmla7.store" }],
+      "destination": "https://naslmla7.store/:path*",
+      "permanent": true
+    }
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
