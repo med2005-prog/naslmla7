@@ -83,6 +83,9 @@ const Navbar = () => {
                   <a href="https://www.instagram.com/nas.lmla7?igsh=OWhzemhyaWZmczE=" target="_blank" rel="noopener noreferrer" className="dropdown-item">
                     <img src="/icons/social_1.jpg" alt="" style={{ width: '20px', height: '20px', borderRadius: '50%' }} /> انستغرام
                   </a>
+                  <a href="https://youtube.com/@naslmla7?si=pSVaUPYj3L3Jx_l8" target="_blank" rel="noopener noreferrer" className="dropdown-item">
+                    <img src="/icons/social_4.png" alt="" style={{ width: '20px', height: '20px', borderRadius: '50%' }} /> يوتيوب
+                  </a>
                   <a href="https://www.facebook.com/share/1ERmQ7cdY1/" target="_blank" rel="noopener noreferrer" className="dropdown-item">
                     <img src="/icons/social_2.jpg" alt="" style={{ width: '20px', height: '20px', borderRadius: '50%' }} /> فيسبوك
                   </a>
@@ -160,8 +163,11 @@ const Navbar = () => {
                   <a href="https://wa.me/212709277659" target="_blank" rel="noopener noreferrer">
                     <img src="/icons/social_0.jpg" alt="" style={{ width: '30px', height: '30px', borderRadius: '50%' }} />
                   </a>
-                  <a href="https://www.instagram.com/nas.lmla7?igsh=OWhzemhyaWZmczE=" target="_blank" rel="noopener noreferrer">
+                   <a href="https://www.instagram.com/nas.lmla7?igsh=OWhzemhyaWZmczE=" target="_blank" rel="noopener noreferrer">
                     <img src="/icons/social_1.jpg" alt="" style={{ width: '30px', height: '30px', borderRadius: '50%' }} />
+                  </a>
+                  <a href="https://youtube.com/@naslmla7?si=pSVaUPYj3L3Jx_l8" target="_blank" rel="noopener noreferrer">
+                    <img src="/icons/social_4.png" alt="" style={{ width: '30px', height: '30px', borderRadius: '50%' }} />
                   </a>
                   <a href="https://www.facebook.com/share/1ERmQ7cdY1/" target="_blank" rel="noopener noreferrer">
                     <img src="/icons/social_2.jpg" alt="" style={{ width: '30px', height: '30px', borderRadius: '50%' }} />

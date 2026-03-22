@@ -52,6 +52,15 @@ const Footer = () => {
               <img src="/icons/social_1.jpg" alt="Instagram" style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }} /> Instagram
             </a>
             <a 
+              href="https://youtube.com/@naslmla7?si=pSVaUPYj3L3Jx_l8" 
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', marginBottom: '0.5rem' }}
+              className="hover-text"
+            >
+              <img src="/icons/social_4.png" alt="YouTube" style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }} /> YouTube
+            </a>
+            <a 
               href="https://www.facebook.com/share/1ERmQ7cdY1/" 
               target="_blank"
               rel="noopener noreferrer"
