@@ -56,18 +56,17 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
     }
     setIsSubmitting(true);
     try {
-       const aggregatedItems = checkoutItems.reduce((acc, item) => {
-         const key = item.id;
-         if (!acc[key]) {
-           acc[key] = { ...item, count: 0 };
-         }
-         acc[key].count += 1;
-         return acc;
-       }, {});
-       const productNames = Object.values(aggregatedItems).map(item => {
-         const countStr = item.count > 1 ? ` x${item.count}` : '';
-         return `${item.name}${countStr}`;
-       }).join(' + ');
+        const aggregatedItems = checkoutItems.reduce((acc, item) => {
+          const key = item._id || item.id || item.name;
+          if (!acc[key]) {
+            acc[key] = { name: item.name, count: 0 };
+          }
+          acc[key].count += 1;
+          return acc;
+        }, {});
+        const productNames = Object.values(aggregatedItems).map(item => {
+          return `${item.name} (x${item.count})`;
+        }).join(' + ');
         const orderData = {
           productName: productNames, 
           productPrice: totalPrice,
