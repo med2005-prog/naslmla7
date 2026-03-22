@@ -1,7 +1,9 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/api/products/:id", "destination": "/api/products?id=:id" },
+    { "source": "/api/products", "destination": "/api/products" },
+    { "source": "/api/auth", "destination": "/api/auth" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
