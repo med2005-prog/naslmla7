@@ -6,6 +6,9 @@ import User from '../models/User.js';
  * Middleware to check if user is authenticated
  */
 export const protect = async (req, res, next) => {
+  // DEBUG: Log incoming authorization header
+  console.log('[AUTH DEBUG] Authorization header:', req.headers.authorization ? 'Present' : 'Missing');
+  
   let token;
 
   // Check for token in headers or cookies

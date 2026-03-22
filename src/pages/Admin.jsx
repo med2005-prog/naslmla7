@@ -211,7 +211,9 @@ const Admin = () => {
             console.error('API Create failed, saving locally', apiErr);
             const newProduct = { ...processedFormData, id: Date.now() };
             saveProducts([...products, newProduct]);
-            alert('تم إضافة المنتج محلياً بنجاح!');
+            // DEBUG: Show raw error to user for diagnosis
+            const errorData = apiErr.response?.data || { message: apiErr.message };
+            alert('DEBUG API Error: ' + JSON.stringify(errorData, null, 2));
         }
       }
     } catch(err) {
