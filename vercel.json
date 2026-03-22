@@ -1,30 +1,7 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.naslmla7.store" }],
-      "destination": "https://naslmla7.store/:path*",
-      "permanent": true
-    }
-  ],
   "rewrites": [
-    { "source": "/api/products", "destination": "/api/products" },
-    { "source": "/api/products/:id", "destination": "/api/products?id=:id" },
-    { "source": "/api/auth/login", "destination": "/api/auth" },
+    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
