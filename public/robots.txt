@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://naslmla7.com/sitemap.xml
+Sitemap: https://naslmla7.store/sitemap.xml
