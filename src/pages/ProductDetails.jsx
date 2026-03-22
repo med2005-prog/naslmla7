@@ -19,7 +19,7 @@ const ProductDetails = () => {
   const [timeRemaining, setTimeRemaining] = useState(null);
   const [reviewForm, setReviewForm] = useState({ name: '', rating: 5, comment: '' });
 
-  const product = products.find(p => p.id === parseInt(id));
+  const product = products.find(p => p._id === id);
 
   const handleAddReview = (e) => {
     e.preventDefault();
@@ -32,7 +32,7 @@ const ProductDetails = () => {
     };
 
     const updatedAllProducts = products.map(p => {
-      if (p.id === product.id) {
+      if (p._id === product.id) {
         return {
           ...p,
           reviews: [newReview, ...(p.reviews || [])]
@@ -47,7 +47,7 @@ const ProductDetails = () => {
     try {
       const existingAdminProducts = JSON.parse(localStorage.getItem(storageKey) || '[]');
       const updatedAdminProducts = existingAdminProducts.map(p => {
-        if (p.id === product.id) {
+        if (p._id === product.id) {
           return { ...p, reviews: [newReview, ...(p.reviews || [])] };
         }
         return p;
@@ -450,7 +450,7 @@ const ProductDetails = () => {
         <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '2rem' }}>منتجات قد تعجبك</h3>
         <div className="grid-products">
           {products
-            .filter(p => p.category === product.category && p.id !== product.id)
+            .filter(p => p.category === product.category && p._id !== product.id)
             .slice(0, 3)
             .map(relatedProduct => (
                <div key={relatedProduct.id} className="card fade-in">

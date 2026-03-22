@@ -42,7 +42,7 @@ const ProductCard = ({ product }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => { setIsHovered(false); setCurrentImageIndex(0); }}
     >
-      <Link to={`/product/${product.id}`} style={{ display: 'block', overflow: 'hidden', position: 'relative' }}>
+      <Link to={`/product/${product._id}`} style={{ display: 'block', overflow: 'hidden', position: 'relative' }}>
         <div className="image-container" style={{ aspectRatio: '1/1', overflow: 'hidden' }}>
           <img 
             src={images[currentImageIndex]} 
@@ -135,7 +135,7 @@ const ProductCard = ({ product }) => {
             </span>
           </div>
         )}
-        <Link to={`/product/${product.id}`} className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+        <Link to={`/product/${product._id}`} className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
           <Plus size={20} />
           عرض التفاصيل
         </Link>
