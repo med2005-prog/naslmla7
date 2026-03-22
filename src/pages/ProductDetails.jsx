@@ -17,48 +17,9 @@ const ProductDetails = () => {
   const { addToCart } = useCart();
   const { products, setProducts } = useProducts();
   const [timeRemaining, setTimeRemaining] = useState(null);
-  const [reviewForm, setReviewForm] = useState({ name: '', rating: 5, comment: '' });
 
   const product = products.find(p => p._id === id);
 
-  const handleAddReview = (e) => {
-    e.preventDefault();
-    if (!reviewForm.name || !reviewForm.comment || !product) return;
-
-    const newReview = {
-      id: Date.now(),
-      ...reviewForm,
-      date: new Date().toISOString(),
-    };
-
-    const updatedAllProducts = products.map(p => {
-      if (p._id === product.id) {
-        return {
-          ...p,
-          reviews: [newReview, ...(p.reviews || [])]
-        };
-      }
-      return p;
-    });
-    setProducts(updatedAllProducts);
-
-    const adminEmail = product.adminEmail || 'mohammedelmalki2005@gmail.com';
-    const storageKey = `products_${adminEmail}`;
-    try {
-      const existingAdminProducts = JSON.parse(localStorage.getItem(storageKey) || '[]');
-      const updatedAdminProducts = existingAdminProducts.map(p => {
-        if (p._id === product.id) {
-          return { ...p, reviews: [newReview, ...(p.reviews || [])] };
-        }
-        return p;
-      });
-      localStorage.setItem(storageKey, JSON.stringify(updatedAdminProducts));
-    } catch (err) {
-      console.error('Error saving review to localStorage:', err);
-    }
-
-    setReviewForm({ name: '', rating: 5, comment: '' });
-  };
   const [activeImage, setActiveImage] = useState(null);
   const [isImageZoomed, setIsImageZoomed] = useState(false);
 
@@ -347,103 +308,6 @@ const ProductDetails = () => {
         </div>
       )}
 
-      {/* Reviews Section */}
-      <div className="container" style={{ padding: '0 1.5rem 4rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '4rem' }}>
-          {/* Review Stats & List */}
-          <div>
-            <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              آراء الزبائن 
-              <span style={{ fontSize: '1rem', background: 'var(--primary)', color: 'white', padding: '0.2rem 0.6rem', borderRadius: '1rem' }}>
-                {product.reviews?.length || 0}
-              </span>
-            </h3>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              {(!product.reviews || product.reviews.length === 0) ? (
-                <div style={{ textAlign: 'center', padding: '3rem', background: 'var(--surface)', borderRadius: 'var(--radius)', border: '1px dashed var(--border)' }}>
-                  <p style={{ color: 'var(--text-secondary)' }}>لا توجد تعليقات بعد. كن أول من يشارك رأيه!</p>
-                </div>
-              ) : (
-                product.reviews.map(review => (
-                  <div key={review.id} className="card" style={{ padding: '1.5rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        <div style={{ width: '40px', height: '40px', background: 'var(--background)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, color: 'var(--primary)' }}>
-                          {review.name.charAt(0).toUpperCase()}
-                        </div>
-                        <div>
-                          <h4 style={{ fontWeight: 700 }}>{review.name}</h4>
-                          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                            {new Date(review.date).toLocaleDateString('ar-MA')}
-                          </span>
-                        </div>
-                      </div>
-                      <div style={{ display: 'flex', color: '#f59e0b' }}>
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} size={16} fill={i < review.rating ? "#f59e0b" : "none"} />
-                        ))}
-                      </div>
-                    </div>
-                    <p style={{ color: 'var(--text-main)', lineHeight: 1.6 }}>{review.comment}</p>
-                    <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#166534', fontSize: '0.8rem', fontWeight: 600 }}>
-                      <Check size={14} />
-                      <span>شراء مؤكد</span>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-
-          {/* Add Review Form */}
-          <div className="card" style={{ padding: '2rem' }}>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1.5rem' }}>أضف رأيك</h3>
-            <form onSubmit={handleAddReview} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>الاسم الكامل</label>
-                <input 
-                  type="text" 
-                  value={reviewForm.name}
-                  onChange={(e) => setReviewForm({...reviewForm, name: e.target.value})}
-                  required
-                  placeholder=""
-                  style={{ width: '100%', padding: '0.75rem', border: '1px solid var(--border)', borderRadius: '0.5rem', fontSize: '1rem' }}
-                />
-              </div>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>التقييم</label>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  {[1, 2, 3, 4, 5].map((num) => (
-                    <button
-                      key={num}
-                      type="button"
-                      onClick={() => setReviewForm({...reviewForm, rating: num})}
-                      style={{ background: 'none', padding: '0', cursor: 'pointer', color: '#f59e0b' }}
-                    >
-                      <Star size={24} fill={num <= reviewForm.rating ? "#f59e0b" : "none"} />
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>تعليقك</label>
-                <textarea 
-                  value={reviewForm.comment}
-                  onChange={(e) => setReviewForm({...reviewForm, comment: e.target.value})}
-                  required
-                  placeholder=""
-                  rows="4"
-                  style={{ width: '100%', padding: '0.75rem', border: '1px solid var(--border)', borderRadius: '0.5rem', fontSize: '1rem', resize: 'vertical' }}
-                />
-              </div>
-              <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-                نشر التعليق
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
 
       {/* Related Products */}
       <div className="container" style={{ padding: '0 1.5rem 4rem' }}>
