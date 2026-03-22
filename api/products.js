@@ -34,10 +34,7 @@ const Product = mongoose.models.Product || mongoose.model('Product', ProductSche
 
 // API Handler
 export default async function handler(req, res) {
-  // Connect to database
-  await connectDB();
-  
-  // CORS Headers
+  // CORS Headers (set first)
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -46,6 +43,26 @@ export default async function handler(req, res) {
   // Handle OPTIONS request
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
+  }
+
+  // Connect to database with error handling
+  try {
+    if (!process.env.MONGODB_URI) {
+      return res.status(500).json({
+        success: false,
+        error: 'MONGODB_URI environment variable is not set',
+        note: 'Please add MONGODB_URI in Vercel Dashboard -> Settings -> Environment Variables'
+      });
+    }
+    await connectDB();
+  } catch (dbError) {
+    console.error('MongoDB Connection Error:', dbError.message);
+    return res.status(500).json({
+      success: false,
+      error: dbError.message,
+      errorType: dbError.name,
+      note: 'MongoDB connection failed. Check: 1) MONGODB_URI is correct, 2) IP 0.0.0.0/0 is whitelisted in MongoDB Atlas'
+    });
   }
   
   try {
