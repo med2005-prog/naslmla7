@@ -90,7 +90,7 @@ const Footer = () => {
           </div>
         </div>
         <div style={{ borderTop: '1px solid #334155', marginTop: '3rem', paddingTop: '1.5rem', textAlign: 'center', color: '#64748b' }}>
-          &copy; <span className="numerals">2026</span> Nas lmla7. جميع الحقوق محفوظة.
+          &copy; <span className="numerals">2026</span> Nas lmla7. جميع الحقوق محفوظة. By med elmalki
         </div>
         <style>{`
           .hover-text {
