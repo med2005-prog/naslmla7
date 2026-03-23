@@ -2,9 +2,9 @@ import React from 'react';
 import { Home, Package, Info, Link as LinkIcon, MessageSquare } from 'lucide-react';
 const Footer = () => {
   return (
-    <footer id="contact" style={{ background: '#1e293b', color: 'white', padding: '4rem 0', marginTop: 'auto' }}>
+    <footer id="contact" className="site-footer">
       <div className="container">
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', justifyContent: 'space-between' }}>
+        <div className="footer-grid">
           <div>
             <h3 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <img src="/nas_logo.jpg" alt="Logo" style={{ width: '55px', height: '55px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--primary)' }} />
@@ -93,42 +93,88 @@ const Footer = () => {
           &copy; <span className="numerals">2026</span> Nas lmla7. جميع الحقوق محفوظة. By med elmalki
         </div>
         <style>{`
-          .hover-text {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            padding: 0.5rem;
-            border-radius: 0.5rem;
+          .site-footer {
+          background: #1e293b;
+          color: white;
+          padding: 4rem 0;
+          margin-top: auto;
+        }
+        .footer-grid {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 3rem;
+          justify-content: space-between;
+        }
+        .hover-text {
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          padding: 0.5rem;
+          border-radius: 0.5rem;
+        }
+        .hover-text:hover {
+          color: white !important;
+          background: rgba(255, 255, 255, 0.1);
+          transform: translateX(-10px) scale(1.1);
+        }
+        .hover-text img {
+          transition: transform 0.4s ease;
+        }
+        .hover-text:hover img {
+          transform: rotate(360deg) scale(1.2);
+          box-shadow: 0 0 15px var(--primary);
+        }
+        .hover-link {
+          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          display: inline-flex;
+          align-items: center;
+          padding: 0.3rem 0;
+          cursor: pointer;
+        }
+        .hover-link:hover {
+          color: var(--secondary) !important;
+          transform: translateX(-10px);
+          text-shadow: 0 0 8px rgba(25, 83, 157, 0.4);
+        }
+        .hover-link svg {
+          transition: transform 0.3s ease;
+        }
+        .hover-link:hover svg {
+          transform: scale(1.3) rotate(-10deg);
+          color: var(--primary);
+        }
+        @media (max-width: 768px) {
+          .site-footer {
+            padding: 2.5rem 0;
+            min-height: 25vh;
           }
-          .hover-text:hover {
-            color: white !important;
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(-10px) scale(1.1);
+          .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
           }
-          .hover-text img {
-            transition: transform 0.4s ease;
+          .footer-grid > div:first-child {
+            grid-column: 1 / -1;
+            margin-bottom: 1rem;
           }
-          .hover-text:hover img {
-            transform: rotate(360deg) scale(1.2);
-            box-shadow: 0 0 15px var(--primary);
+          .site-footer h3 {
+             font-size: 1.25rem !important;
+             margin-bottom: 0.75rem !important;
           }
-          .hover-link {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: inline-flex;
-            align-items: center;
-            padding: 0.3rem 0;
-            cursor: pointer;
+          .site-footer h4 {
+             font-size: 1.1rem !important;
+             margin-bottom: 1rem !important;
           }
-          .hover-link:hover {
-            color: var(--secondary) !important;
-            transform: translateX(-10px);
-            text-shadow: 0 0 8px rgba(25, 83, 157, 0.4);
+          .site-footer p, .site-footer ul, .site-footer a {
+             font-size: 0.9rem !important;
           }
-          .hover-link svg {
-            transition: transform 0.3s ease;
-          }
-          .hover-link:hover svg {
-            transform: scale(1.3) rotate(-10deg);
-            color: var(--primary);
-          }
+        }
+        @media (max-width: 480px) {
+           .footer-grid {
+             gap: 1.5rem;
+           }
+           .site-footer {
+             padding: 2rem 0;
+           }
+        }
         `}</style>
       </div>
     </footer>
