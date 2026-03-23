@@ -125,9 +125,18 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
             date: new Date().toISOString()
           };
           orders.push(newLocalOrder);
-          localStorage.setItem('orders', JSON.stringify(orders));
+          // Only keep last 20 orders to avoid QuotaExceededError
+          const recentOrders = orders.slice(-20);
+          localStorage.setItem('orders', JSON.stringify(recentOrders));
         } catch (storageErr) {
-          console.error('Error saving order locally:', storageErr);
+          console.warn('LocalStorage error (Quota exceeded or full):', storageErr);
+          // If Quota exceeded, clear everything to allow future saves
+          try {
+            localStorage.setItem('orders', '[]');
+            console.log('LocalStorage cleared to resolve QuotaExceededError.');
+          } catch (e) {
+            console.error('CRITICAL: LocalStorage is completely unusable.', e);
+          }
         }
         console.log('Order submitted:', { productNames, ...formData });
         setIsOrdered(true);
