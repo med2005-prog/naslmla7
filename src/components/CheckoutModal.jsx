@@ -10,7 +10,7 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
     phone: '',
     address: ''
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isOrdered, setIsOrdered] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
   if (!isOpen) return null;
@@ -121,13 +121,11 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
         } catch (storageErr) {
           console.error('Error saving order locally:', storageErr);
         }
-        if (!isCartCheckout) {
-             addToCart(product); 
-        } else {
-             clearCart();
-        }
         console.log('Order submitted:', { productNames, ...formData });
-        setIsSubmitted(true);
+        setIsOrdered(true);
+        if (isCartCheckout) {
+          clearCart();
+        }
       } else {
         alert('عذراً، حدث خطأ أثناء إرسال الطلب. يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.');
       }
@@ -143,14 +141,16 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
         <button onClick={onClose} className="close-btn">
           <X size={24} />
         </button>
-        {isSubmitted ? (
+        {isOrdered ? (
           <div className="success-message fade-in">
             <div className="success-icon-container">
               <div className="success-circle"></div>
               <CheckCircle size={80} className="check-icon" />
             </div>
-            <h2 style={{ fontSize: '1.8rem', fontWeight: '800', color: '#059669', marginBottom: '0.5rem' }}>تهانينا! تم تأكيد طلبكم ✨</h2>
-            <p style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-main)' }}>لقد تم تسجيل طلبكم بنجاح في نظامنا.</p>
+            <h2 style={{ fontSize: '1.8rem', fontWeight: '800', color: '#059669', marginBottom: '0.75rem' }}>شكراً ليكم على ثقتكم في naslmla7 ❤️</h2>
+            <p style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-main)', lineHeight: '1.6', marginBottom: '1rem' }}>
+              توصلنا بالطلب ديالكم بنجاح. فريقنا غادي يتواصل معاكم في مكالمة هاتفية في أقل من 20 ساعة باش نأكدوا المعلومات ونصيفطوا ليكم السلعة.
+            </p>
             
             <div style={{
               margin: '1.5rem 0',
@@ -194,7 +194,7 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
               جاري تجهيز طلبك للشحن الآن
             </div>
 
-            <button onClick={onClose} className="btn btn-primary" style={{ marginTop: '1.5rem', width: '100%', padding: '1.25rem', fontSize: '1.1rem' }}>
+            <button onClick={() => { clearCart(); onClose(); }} className="btn btn-primary" style={{ marginTop: '1.5rem', width: '100%', padding: '1.25rem', fontSize: '1.1rem' }}>
                إغلاق ومتابعة التصفح
             </button>
           </div>
