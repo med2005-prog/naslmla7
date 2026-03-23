@@ -8,10 +8,7 @@ const Home = () => {
     <>
       {/* Hero Section */}
       <header className="hero-header" style={{ 
-        background: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.9)), url('/nas_logo.jpg')`,
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed',
+        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.9)), url('/nas_logo.jpg')`,
         borderBottom: '1px solid var(--border)'
       }}>
         <div className="container" style={{ position: 'relative', zIndex: 10 }}>
@@ -105,6 +102,9 @@ const Home = () => {
           overflow: hidden;
           text-align: center;
           background-size: 400px auto !important;
+          background-position: center !important;
+          background-repeat: no-repeat !important;
+          background-attachment: fixed;
           padding: 4rem 2rem;
         }
         .hero-badge {
