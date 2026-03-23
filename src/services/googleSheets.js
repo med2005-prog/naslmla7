@@ -3,23 +3,32 @@ export const sendOrderToGoogleSheets = async (orderData) => {
   try {
     console.log('🚀 بدء إرسال البيانات إلى Google Sheets...');
     console.log('📦 البيانات المرسلة:', orderData);
+    
+    // Split fullName into firstName and lastName
+    const nameParts = (orderData.fullName || '').trim().split(' ');
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.slice(1).join(' ') || '';
+    
+    // Convert productName string to an array for cartItems if it's a string
+    let cartItems = [];
+    if (typeof orderData.productName === 'string') {
+      cartItems = orderData.productName.split(' + ');
+    } else if (Array.isArray(orderData.productName)) {
+      cartItems = orderData.productName;
+    }
+
     const dataToSend = {
-      timestamp: new Date().toLocaleString('ar-MA', { 
-        timeZone: 'Africa/Casablanca',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit'
-      }),
-      productName: orderData.productName,
-      productPrice: orderData.productPrice,
-      customerName: orderData.fullName,
+      firstName: firstName,
+      lastName: lastName,
       phone: orderData.phone,
-      address: orderData.address
+      address: orderData.address,
+      city: orderData.address, // mapping address as city for now as requested
+      totalPrice: orderData.productPrice,
+      cartItems: cartItems
     };
     console.log('📋 البيانات النهائية:', dataToSend);
-    await fetch(GOOGLE_SCRIPT_URL, {
+    
+    const response = await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: {
@@ -27,8 +36,10 @@ export const sendOrderToGoogleSheets = async (orderData) => {
       },
       body: JSON.stringify(dataToSend)
     });
+    
     console.log('✅ تم إرسال البيانات بنجاح!');
     console.log('🔗 الرابط المستخدم:', GOOGLE_SCRIPT_URL);
+    console.log('📡 Response status:', response.status, response.statusText);
     return { success: true };
   } catch (error) {
     console.error('❌ خطأ في إرسال البيانات إلى Google Sheets:', error);
