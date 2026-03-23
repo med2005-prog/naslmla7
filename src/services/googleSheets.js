@@ -4,15 +4,16 @@ export const sendOrderToGoogleSheets = async (orderData) => {
   try {
     console.log('🚀 إرسال البيانات إلى Google Sheets...');
 
+    // Mapping every value explicitly to avoid undefined keys
     const dataToSend = {
-      productName:  orderData.productName  || '',
-      totalPrice:   orderData.productPrice || 0,
-      customerName: orderData.fullName     || '',
-      phone:        orderData.phone        || '',
-      address:      orderData.address      || ''
+      productName:  String(orderData.productName || 'منتج غير معروف'),
+      totalPrice:   Number(orderData.productPrice || 0),
+      customerName: String(orderData.fullName || 'عميل مجهول'),
+      phone:        String(orderData.phone || ''),
+      address:      String(orderData.address || '')
     };
 
-    console.log('📋 البيانات المرسلة:', dataToSend);
+    console.log('📋 البيانات النهائية المرسلة:', dataToSend);
 
     await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
@@ -21,10 +22,10 @@ export const sendOrderToGoogleSheets = async (orderData) => {
       body:   JSON.stringify(dataToSend)
     });
 
-    console.log('✅ تم الإرسال بنجاح!');
+    console.log('✅ تم إرسال الطلب بنجاح (Opaque Response)!');
     return { success: true };
   } catch (error) {
-    console.error('❌ خطأ:', error.message);
+    console.error('❌ خطأ في إرسال البيانات:', error.message);
     return { success: false, error: error.message };
   }
 };
