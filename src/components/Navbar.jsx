@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Home as HomeIcon, Package, Phone, Menu, X } from 'lucide-react';
+import { ShoppingCart, Home as HomeIcon, Package, Phone, Menu, X, Info } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import CartModal from './CartModal';
 const Navbar = () => {
@@ -34,6 +34,11 @@ const Navbar = () => {
             <Link to="/" className={location.pathname === '/' ? 'active-link' : ''} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <HomeIcon size={18} />
               الرئيسية
+            </Link>
+
+            <Link to="/about" className={location.pathname === '/about' ? 'active-link' : ''} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Info size={18} />
+              من نحن
             </Link>
             
             {/* Contact Dropdown Desktop */}
@@ -150,6 +155,10 @@ const Navbar = () => {
             <Link to="/" onClick={toggleMenu} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <HomeIcon size={20} />
               الرئيسية
+            </Link>
+            <Link to="/about" onClick={toggleMenu} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Info size={20} />
+              من نحن
             </Link>
             <a href="#products" onClick={toggleMenu} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Package size={20} />

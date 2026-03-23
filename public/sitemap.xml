@@ -6,6 +6,12 @@
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://naslmla7.store/about</loc>
+    <lastmod>2026-03-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <!-- 
     Note: For dynamic product pages, it is recommended to 
     generate this file dynamically or updated via a script 

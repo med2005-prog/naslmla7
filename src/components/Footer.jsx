@@ -31,7 +31,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="/#contact" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }} className="hover-link">
+                <a href="/about" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }} className="hover-link">
                   <Info size={16} /> من نحن
                 </a>
               </li>

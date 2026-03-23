@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
 import Admin from './pages/Admin';
+import AboutUs from './pages/AboutUs';
 import { CartProvider } from './context/CartContext';
 import { ProductsProvider } from './context/ProductsContext';
 function App() {
@@ -16,6 +17,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/product/:id" element={<ProductDetails />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/about" element={<AboutUs />} />
 
             </Routes>
           </Layout>
