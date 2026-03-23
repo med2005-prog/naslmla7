@@ -17,7 +17,7 @@ const AboutUs = () => {
             <Info className="text-[#b35d25]" size={32} />
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold text-[#19539d] mb-6 leading-tight">
-            نصل الملاح.. <br className="md:hidden" />
+            ناس الملاح.. <br className="md:hidden" />
             <span className="text-[#b35d25]">جودة ملاح وكلام موزون</span>
           </h1>
           <p className="text-xl text-[#57463a] max-w-3xl mx-auto leading-relaxed px-4">
@@ -38,7 +38,7 @@ const AboutUs = () => {
               </h2>
               <div className="space-y-4 text-lg text-[#57463a] leading-relaxed">
                 <p>
-                  بدأت "نصل الملاح" برؤية واضحة: تقديم منتجات ذات جودة استثنائية للمستهلك المغربي، مع الحرص الدائم على بناء علاقة قوية مبنية على الثقة والاحترام المتبادل.
+                  بدأت "ناس الملاح" برؤية واضحة: تقديم منتجات ذات جودة استثنائية للمستهلك المغربي، مع الحرص الدائم على بناء علاقة قوية مبنية على الثقة والاحترام المتبادل.
                 </p>
                 <p className="font-semibold text-[#19539d]">
                   نحن لا نبيع المنتجات فحسب، بل نبيع راحة البال والجودة التي تستحقونها.
