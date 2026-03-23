@@ -55,7 +55,7 @@ const ProductCard = ({ product }) => {
             }}
           />
           {isPromoActive && (
-            <div style={{
+            <div className="product-card-badge-promo" style={{
               position: 'absolute',
               top: '1rem',
               right: '1rem',
@@ -71,7 +71,7 @@ const ProductCard = ({ product }) => {
               🔥 -{Math.round(((product.price - product.promoPrice) / product.price) * 100)}%
             </div>
           )}
-          <div style={{
+          <div className="product-card-badge-cod" style={{
             position: 'absolute',
             bottom: '0.75rem',
             left: '0.75rem',
@@ -89,20 +89,20 @@ const ProductCard = ({ product }) => {
             zIndex: 10
           }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><path d="M6 15h.01"/><path d="M10 15h.01"/></svg>
-            الدفع عند التوصيل
+            <span className="cod-text">الدفع عند التوصيل</span>
           </div>
         </div>
       </Link>
-      <div style={{ padding: '1.5rem' }}>
-        <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>{product.name}</h3>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem', lineHeight: '1.5', height: '3em', overflow: 'hidden' }}>
+      <div className="product-card-body" style={{ padding: '1.5rem' }}>
+        <h3 className="product-card-title" style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>{product.name}</h3>
+        <p className="product-card-description" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem', lineHeight: '1.5', height: '3em', overflow: 'hidden' }}>
           {product.description}
         </p>
         {/* Price Display */}
         {isPromoActive ? (
           <div style={{ marginBottom: '1rem' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', marginBottom: '0.5rem' }}>
-              <span style={{ fontSize: '1.5rem', fontWeight: 800, color: '#ef4444', lineHeight: 1.2 }}>
+              <span className="product-card-price" style={{ fontSize: '1.5rem', fontWeight: 800, color: '#ef4444', lineHeight: 1.2 }}>
                 <span className="numerals">{product.promoPrice}</span> <span style={{ fontSize: '0.9rem' }}>MAD</span>
               </span>
               <span style={{ 
@@ -122,7 +122,11 @@ const ProductCard = ({ product }) => {
                 borderRadius: '0.25rem',
                 display: 'inline-block',
                 fontWeight: timeRemaining.urgent ? 700 : 600,
-                animation: timeRemaining.urgent ? 'pulse 2s infinite' : 'none'
+                animation: timeRemaining.urgent ? 'pulse 2s infinite' : 'none',
+                maxWidth: '100%',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap'
               }}>
                 {timeRemaining.text}
               </p>
@@ -130,13 +134,13 @@ const ProductCard = ({ product }) => {
           </div>
         ) : (
           <div style={{ marginBottom: '1rem' }}>
-            <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)' }}>
+            <span className="product-card-price" style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)' }}>
               <span className="numerals">{product.price}</span> <span style={{ fontSize: '0.9rem' }}>MAD</span>
             </span>
           </div>
         )}
-        <Link to={`/product/${product._id}`} className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
-          <Plus size={20} />
+        <Link to={`/product/${product._id}`} className="btn btn-primary product-card-btn" style={{ width: '100%', justifyContent: 'center' }}>
+          <Plus size={18} className="btn-icon" />
           عرض التفاصيل
         </Link>
       </div>

@@ -152,6 +152,61 @@ img {
   gap: 2rem;
 }
 
+@media (max-width: 640px) {
+  .grid-products {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem; /* gap-3 in Tailwind standard */
+    padding: 0 0.5rem;
+  }
+  
+  .product-card-body {
+    padding: 0.75rem !important;
+  }
+  
+  .product-card-title {
+    font-size: 0.95rem !important;
+    margin-bottom: 0.25rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .product-card-price {
+    font-size: 1.1rem !important;
+  }
+  
+  .product-card-btn {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.75rem !important;
+    border-radius: 0.5rem !important;
+  }
+
+  .product-card-btn .btn-icon {
+     display: none !important;
+  }
+
+  .product-card-description {
+     display: none !important; /* Hide description on mobile for extreme compactness */
+  }
+
+  .product-card-badge-promo {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.7rem !important;
+    top: 0.5rem !important;
+    right: 0.5rem !important;
+  }
+
+  .product-card-badge-cod {
+    padding: 0.2rem 0.4rem !important;
+    bottom: 0.5rem !important;
+    left: 0.5rem !important;
+  }
+
+  .product-card-badge-cod .cod-text {
+    display: none !important; /* Only show icon on mobile */
+  }
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {
