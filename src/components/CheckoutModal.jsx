@@ -99,7 +99,8 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
            totalPrice
        };
 
-      const result = await sendOrderToGoogleSheets(orderData);
+        console.log("🚀 SENDING TO SHEETS:", orderData);
+        const result = await sendOrderToGoogleSheets(orderData);
       
       let dbOrderCreated = false;
       try {

@@ -1,4 +1,4 @@
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzcWdk6ZKbiD2eEmhiSNQt4mHxB_rp8w7nfqgcObQ7mclGIJpEjP3XLRCFbsOieK6Zn/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwE3wBb3vbScCBDIxCjQJQWYchhMr7gYfBHe7nlUEzv27_LNyS2Skd-6xlInn9gL8Ca/exec';
 
 export const sendOrderToGoogleSheets = async (orderData) => {
   try {
@@ -13,12 +13,16 @@ export const sendOrderToGoogleSheets = async (orderData) => {
       address:      String(orderData.address || '')
     };
 
-    console.log('📋 البيانات النهائية المرسلة:', dataToSend);
+    console.log('📋 البيانات الصادرة (Final Check):', dataToSend);
 
+    // Send as plain text to ensure Google's no-cors accepts it properly in e.postData.contents
     await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
       mode:   'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
       body:   JSON.stringify(dataToSend)
     });
 
