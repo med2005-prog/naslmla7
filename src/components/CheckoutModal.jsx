@@ -283,7 +283,7 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
                 disabled={isSubmitting}
                 style={{ opacity: isSubmitting ? 0.7 : 1, cursor: isSubmitting ? 'not-allowed' : 'pointer' }}
               >
-                <span>{isSubmitting ? 'جاري تأكيد طلبك...' : 'إتمام الشراء الآن'}</span>
+                <span>{isSubmitting ? 'جاري الإرسال...' : 'إتمام الشراء الآن'}</span>
                 {!isSubmitting && <Send size={18} />}
               </button>
               {isSubmitting && (
