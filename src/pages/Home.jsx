@@ -7,31 +7,21 @@ const Home = () => {
   return (
     <>
       {/* Hero Section */}
-      <header style={{ 
+      <header className="hero-header" style={{ 
         background: `linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.95)), url('/nas_logo.jpg')`,
         backgroundSize: '300px auto',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'fixed',
-        minHeight: '50vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative', 
-        overflow: 'hidden',
-        textAlign: 'center',
         borderBottom: '1px solid var(--border)'
       }}>
         <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-          <span style={{ 
+          <span className="hero-badge" style={{ 
             display: 'inline-block', 
-            padding: '0.3rem 0.8rem', 
             background: 'rgba(25, 83, 157, 0.1)', 
             color: 'var(--primary)', 
             borderRadius: '2rem', 
-            fontSize: '0.8rem',
             fontWeight: 700,
-            marginBottom: '0.8rem',
             border: '1px solid rgba(25, 83, 157, 0.2)'
           }}>
             كل ما تبحث عنه في مكان واحد
@@ -40,8 +30,8 @@ const Home = () => {
             منتجات متنوعة تناسب احتياجاتك اليومية بأفضل جودة
           </h1>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.8rem' }}>
-            <a href="#products" className="btn btn-primary" style={{ padding: '0.6rem 1.2rem', fontSize: '0.9rem', background: 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)', boxShadow: '0 4px 15px rgba(25, 83, 157, 0.3)' }}>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <a href="#products" className="btn btn-primary hero-btn">
               <ShoppingBag size={18} />
               تسوق الآن
             </a>
@@ -77,7 +67,7 @@ const Home = () => {
         }}></div>
       </header>
       {/* Products Section */}
-      <section id="products" style={{ padding: '5rem 0' }}>
+      <section id="products" className="products-section" style={{ padding: '5rem 0' }}>
         <div className="container">
           <div className="grid-products fade-in">
             {loading ? (
@@ -107,6 +97,20 @@ const Home = () => {
         </div>
       </section>
       <style>{`
+        .hero-header {
+          min-height: 50vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+          text-align: center;
+        }
+        .hero-badge {
+          padding: 0.3rem 0.8rem;
+          font-size: 0.8rem;
+          margin-bottom: 0.8rem;
+        }
         .hero-title {
           font-size: 2.5rem;
           font-weight: 800;
@@ -116,14 +120,41 @@ const Home = () => {
           -webkit-text-fill-color: transparent;
           line-height: 1.2;
         }
+        .hero-btn {
+          padding: 0.6rem 1.2rem;
+          font-size: 0.9rem;
+          background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+          box-shadow: 0 4px 15px rgba(25, 83, 157, 0.3);
+        }
         @media (max-width: 768px) {
+          .hero-header {
+            min-height: 35vh;
+          }
           .hero-title {
             font-size: 2rem;
           }
+          .products-section {
+            padding: 3rem 0 !important;
+          }
         }
         @media (max-width: 480px) {
+          .hero-header {
+            min-height: 30vh;
+          }
+          .hero-badge {
+             font-size: 0.7rem;
+             padding: 0.2rem 0.6rem;
+             margin-bottom: 0.5rem;
+          }
           .hero-title {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
+          }
+          .hero-btn {
+            font-size: 0.8rem;
+            padding: 0.5rem 1rem;
+          }
+          .products-section {
+            padding: 2rem 0 !important;
           }
         }
         @keyframes pulse {
