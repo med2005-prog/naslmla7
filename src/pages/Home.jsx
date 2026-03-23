@@ -8,8 +8,7 @@ const Home = () => {
     <>
       {/* Hero Section */}
       <header className="hero-header" style={{ 
-        background: `linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.95)), url('/nas_logo.jpg')`,
-        backgroundSize: '300px auto',
+        background: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.9)), url('/nas_logo.jpg')`,
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'fixed',
@@ -105,6 +104,8 @@ const Home = () => {
           position: relative;
           overflow: hidden;
           text-align: center;
+          background-size: 400px auto !important;
+          padding: 4rem 2rem;
         }
         .hero-badge {
           padding: 0.3rem 0.8rem;
@@ -140,6 +141,8 @@ const Home = () => {
         @media (max-width: 480px) {
           .hero-header {
             min-height: 30vh;
+            background-size: 250px auto !important;
+            padding: 2rem 1rem;
           }
           .hero-badge {
              font-size: 0.7rem;
