@@ -7,11 +7,15 @@ const Home = () => {
   return (
     <>
       {/* Hero Section */}
-      <header className="hero-header" style={{ 
-        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.9)), url('/nas_logo.jpg')`,
-        borderBottom: '1px solid var(--border)'
-      }}>
+      <header className="hero-header">
         <div className="container" style={{ position: 'relative', zIndex: 10 }}>
+          <div className="hero-logo-container">
+            <img 
+              src="/nas_logo.jpg" 
+              alt="NasLmla7 Brand Logo" 
+              className="hero-logo-img"
+            />
+          </div>
           <span className="hero-badge" style={{ 
             display: 'inline-block', 
             background: 'rgba(25, 83, 157, 0.1)', 
@@ -22,8 +26,8 @@ const Home = () => {
           }}>
             كل ما تبحث عنه في مكان واحد
           </span>
-          <h1 className="hero-title" style={{ background: 'linear-gradient(to right, var(--primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: '0.5rem' }}>
-            منتجات متنوعة تناسب احتياجاتك اليومية بأفضل جودة
+          <h1 className="hero-title">
+            منتجات متنوعة تناسب <span className="text-highlight">احتياجاتك</span> اليومية بأفضل جودة
           </h1>
 
           <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -33,34 +37,6 @@ const Home = () => {
             </a>
           </div>
         </div>
-        
-        {/* Decorative Floating Logo elements instead of generic circles */}
-        <div style={{
-          position: 'absolute',
-          top: '10%',
-          right: '5%',
-          width: '150px',
-          height: '150px',
-          backgroundImage: "url('/nas_logo.jpg')",
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          opacity: '0.1',
-          filter: 'blur(10px)',
-          borderRadius: '50%'
-        }}></div>
-        <div style={{
-          position: 'absolute',
-          bottom: '10%',
-          left: '5%',
-          width: '100px',
-          height: '100px',
-          backgroundImage: "url('/nas_logo.jpg')",
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          opacity: '0.08',
-          filter: 'blur(8px)',
-          borderRadius: '50%'
-        }}></div>
       </header>
       {/* Products Section */}
       <section id="products" className="products-section" style={{ padding: '5rem 0' }}>
@@ -94,32 +70,44 @@ const Home = () => {
       </section>
       <style>{`
         .hero-header {
-          min-height: 50vh;
+          min-height: auto;
+          padding: 5rem 2rem;
           display: flex;
           align-items: center;
           justify-content: center;
           position: relative;
-          overflow: hidden;
           text-align: center;
-          background-size: 400px auto !important;
-          background-position: center !important;
-          background-repeat: no-repeat !important;
-          background-attachment: fixed;
-          padding: 4rem 2rem;
+          background-color: #f8fafc;
+          border-bottom: 1px solid #f1f5f9;
+        }
+        .hero-logo-container {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 1.5rem;
+        }
+        .hero-logo-img {
+          width: 90px;
+          height: 90px;
+          border-radius: 50%;
+          border: 3px solid white;
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+          object-fit: cover;
         }
         .hero-badge {
           padding: 0.3rem 0.8rem;
           font-size: 0.8rem;
-          margin-bottom: 0.8rem;
+          margin-bottom: 1rem;
+          color: #64748b;
         }
         .hero-title {
-          font-size: 2.5rem;
+          font-size: 3rem;
           font-weight: 800;
-          margin-bottom: 0.8rem;
-          background: linear-gradient(to right, var(--primary), var(--secondary));
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          line-height: 1.2;
+          margin-bottom: 1.5rem;
+          color: #0f172a;
+          line-height: 1.1;
+        }
+        .text-highlight {
+          color: var(--secondary);
         }
         .hero-btn {
           padding: 0.6rem 1.2rem;
@@ -129,10 +117,10 @@ const Home = () => {
         }
         @media (max-width: 768px) {
           .hero-header {
-            min-height: 35vh;
+            padding: 4rem 1.5rem;
           }
           .hero-title {
-            font-size: 2rem;
+            font-size: 2.2rem;
           }
           .products-section {
             padding: 3rem 0 !important;
@@ -140,21 +128,24 @@ const Home = () => {
         }
         @media (max-width: 480px) {
           .hero-header {
-            min-height: 30vh;
-            background-size: 250px auto !important;
-            padding: 2rem 1rem;
+            min-height: 25vh;
+            padding: 3rem 1rem;
+          }
+          .hero-logo-img {
+            width: 70px;
+            height: 70px;
           }
           .hero-badge {
-             font-size: 0.7rem;
-             padding: 0.2rem 0.6rem;
-             margin-bottom: 0.5rem;
+             font-size: 0.75rem;
+             margin-bottom: 0.75rem;
           }
           .hero-title {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
+            text-shadow: none;
           }
           .hero-btn {
-            font-size: 0.8rem;
-            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            padding: 0.6rem 1.2rem;
           }
           .products-section {
             padding: 2rem 0 !important;
