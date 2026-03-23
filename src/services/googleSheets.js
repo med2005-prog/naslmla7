@@ -1,36 +1,19 @@
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzf7JdsEdJc0OrKYhUtMrT2U9zO4V2bvV6UL3XNAUMNx7esCa6i4L--kURXlTwIu78Y/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypQ7WC5y-d5OvZtG8SRtBb1C_dj2gc8q_NFaH6xuqCQH4S_Qg8gdZ_L6X2i38-2BI4/exec';
 
 export const sendOrderToGoogleSheets = async (orderData) => {
   try {
     console.log('🚀 بدء إرسال البيانات إلى Google Sheets...');
     
-    // Split fullName into firstName and lastName
-    const nameParts = (orderData.fullName || '').trim().split(' ');
-    const firstName = nameParts[0] || '';
-    const lastName = nameParts.slice(1).join(' ') || '';
-    
-    // Convert productName to cartItems (Array)
-    let cartItems = [];
-    if (typeof orderData.productName === 'string') {
-      cartItems = orderData.productName.split(' + ');
-    } else if (Array.isArray(orderData.productName)) {
-      cartItems = orderData.productName;
-    }
-
     const dataToSend = {
-      firstName: firstName,
-      lastName: lastName,
-      phone: orderData.phone || "",
-      address: orderData.address || "",
-      city: orderData.address || "", // Currently mapped to address as requested
-      totalPrice: orderData.productPrice || 0,
-      cartItems: cartItems
+      productName: orderData.productName,
+      totalPrice: orderData.productPrice,
+      customerName: orderData.fullName,
+      phone: orderData.phone,
+      address: orderData.address
     };
 
-    console.log('📋 البيانات النهائية المرسلة:', dataToSend);
-    
-    // Use no-cors mode to bypass CORS issues with Google Apps Script
-    // Returns an opaque response (status 0), which we treat as success
+    console.log('📋 البيانات الصادرة:', dataToSend);
+
     await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
@@ -40,11 +23,12 @@ export const sendOrderToGoogleSheets = async (orderData) => {
       },
       body: JSON.stringify(dataToSend)
     });
-    
-    console.log('✅ تم إرسال الطلب بنجاح (Opaque Response)!');
+
+    console.log('✅ تم إرسال البيانات بنجاح!');
     return { success: true };
   } catch (error) {
-    console.error('❌ خطأ في إرسال البيانات:', error.message);
+    console.error('❌ خطأ في الإرسال:', error.message);
     return { success: false, error: error.message };
   }
 };
+
