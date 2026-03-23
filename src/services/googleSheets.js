@@ -2,32 +2,29 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypQ7WC5y-d5O
 
 export const sendOrderToGoogleSheets = async (orderData) => {
   try {
-    console.log('🚀 بدء إرسال البيانات إلى Google Sheets...');
-    
-    const dataToSend = {
-      productName: orderData.productName,
-      totalPrice: orderData.productPrice,
-      customerName: orderData.fullName,
-      phone: orderData.phone,
-      address: orderData.address
-    };
+    console.log('🚀 إرسال البيانات إلى Google Sheets...');
 
-    console.log('📋 البيانات الصادرة:', dataToSend);
-
-    await fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      cache: 'no-cache',
-      headers: {
-        'Content-Type': 'text/plain',
-      },
-      body: JSON.stringify(dataToSend)
+    // Build URL params (GET request - most reliable with Google Apps Script)
+    const params = new URLSearchParams({
+      productName: orderData.productName || '',
+      totalPrice:  orderData.productPrice || 0,
+      customerName: orderData.fullName || '',
+      phone:        orderData.phone || '',
+      address:      orderData.address || ''
     });
 
-    console.log('✅ تم إرسال البيانات بنجاح!');
+    const url = `${GOOGLE_SCRIPT_URL}?${params.toString()}`;
+    console.log('📋 URL المرسلة:', url);
+
+    await fetch(url, {
+      method: 'GET',
+      mode:   'no-cors',
+    });
+
+    console.log('✅ تم الإرسال بنجاح!');
     return { success: true };
   } catch (error) {
-    console.error('❌ خطأ في الإرسال:', error.message);
+    console.error('❌ خطأ:', error.message);
     return { success: false, error: error.message };
   }
 };
