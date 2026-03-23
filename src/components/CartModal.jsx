@@ -26,7 +26,7 @@ const CartModal = ({ isOpen, onClose }) => {
           </div>
           <div className="cart-items">
             {items.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '3rem 0', color: 'var(--text-secondary)' }}>
+              <div className="cart-empty-state">
                 <p style={{ fontSize: '1.1rem' }}>سلتك فارغة حالياً</p>
               </div>
             ) : (
@@ -87,35 +87,62 @@ const CartModal = ({ isOpen, onClose }) => {
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             z-index: 2000;
-            backdrop-filter: blur(2px);
+            backdrop-filter: blur(4px);
             display: flex;
             justify-content: flex-end;
+            transition: all 0.3s ease;
           }
           .cart-modal-content {
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             height: 100%;
             background: var(--surface);
-            padding: 1.5rem;
+            padding: 2rem;
             display: flex;
             flex-direction: column;
-            box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.15);
             cursor: default;
+            position: relative;
+          }
+          .cart-empty-state {
+            text-align: center;
+            padding: 4rem 0;
+            color: var(--text-secondary);
           }
           @media (max-width: 480px) {
+            .cart-modal-overlay {
+              align-items: flex-end;
+              justify-content: center;
+              background: rgba(0, 0, 0, 0.7);
+            }
             .cart-modal-content {
               max-width: 100%;
-              padding: 1rem;
+              height: auto;
+              max-height: 85vh;
+              padding: 1.5rem 1.25rem;
+              border-radius: 2rem 2rem 0 0;
+              box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+              animation: slideInUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            }
+            .cart-empty-state {
+              padding: 2rem 0;
+            }
+            .cart-header {
+              margin-bottom: 1rem;
             }
           }
           .slide-in-right {
-            animation: slideInRight 0.3s ease-out;
+            animation: slideInRight 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
           }
           @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+          }
+          @keyframes slideInUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
           }
           .cart-header {
             display: flex;
