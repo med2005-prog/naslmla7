@@ -13,6 +13,14 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
   const [isOrdered, setIsOrdered] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const handleClose = () => {
+    if (isOrdered) {
+      clearCart();
+    }
+    onClose();
+  };
+
   if (!isOpen) return null;
   const isCartCheckout = !product;
   const checkoutItems = isCartCheckout ? items : [product];
@@ -123,9 +131,6 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
         }
         console.log('Order submitted:', { productNames, ...formData });
         setIsOrdered(true);
-        if (isCartCheckout) {
-          clearCart();
-        }
       } else {
         alert('عذراً، حدث خطأ أثناء إرسال الطلب. يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.');
       }
@@ -138,7 +143,7 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content glass fade-in">
-        <button onClick={onClose} className="close-btn">
+        <button onClick={handleClose} className="close-btn">
           <X size={24} />
         </button>
         {isOrdered ? (
@@ -194,7 +199,7 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
               جاري تجهيز طلبك للشحن الآن
             </div>
 
-            <button onClick={() => { clearCart(); onClose(); }} className="btn btn-primary" style={{ marginTop: '1.5rem', width: '100%', padding: '1.25rem', fontSize: '1.1rem' }}>
+            <button onClick={handleClose} className="btn btn-primary" style={{ marginTop: '1.5rem', width: '100%', padding: '1.25rem', fontSize: '1.1rem' }}>
                إغلاق ومتابعة التصفح
             </button>
           </div>
