@@ -26,8 +26,12 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
   const checkoutItems = isCartCheckout ? items : [product];
   const totalPrice = checkoutItems.reduce((sum, item) => {
     const hasPromo = item.hasPromo && item.promoPrice && item.promoEndDate && new Date(item.promoEndDate) > new Date();
-    const price = hasPromo ? item.promoPrice : item.price;
-    const numericPrice = parseFloat(price) || 0;
+    // Read price from item.price OR item.Prix (backend may use either)
+    const rawPrice = hasPromo
+      ? (item.promoPrice ?? item.PromoPrice ?? 0)
+      : (item.price ?? item.Prix ?? item.prix ?? 0);
+    const numericPrice = parseFloat(rawPrice) || 0;
+    console.log('💰 item price debug:', { name: item.name, rawPrice, numericPrice });
     return sum + numericPrice;
   }, 0);
   if (checkoutItems.length === 0) return null;
