@@ -5,6 +5,7 @@ export const sendOrderToGoogleSheets = async (orderData) => {
     console.log('🚀 إرسال البيانات إلى Google Sheets...');
 
     // Mapping values to match what the Apps Script doPost(e) expects
+    const price = Number(orderData.productPrice || 0);
     const dataToSend = {
       timestamp: new Date().toLocaleString('ar-MA', { 
         timeZone: 'Africa/Casablanca',
@@ -15,9 +16,11 @@ export const sendOrderToGoogleSheets = async (orderData) => {
         minute: '2-digit'
       }),
       productName:  String(orderData.productName || 'منتج غير معروف'),
-      productPrice: Number(orderData.productPrice || 0),
-      totalPrice:   Number(orderData.productPrice || 0), // Adding both to be safe
+      Prix:         price,        // الاسم الصحيح اللي كيستعملو السكريبت الجديد
+      productPrice: price,        // fallback
+      totalPrice:   price,        // fallback
       customerName: String(orderData.fullName || 'عميل مجهول'),
+      fullName:     String(orderData.fullName || 'عميل مجهول'),
       phone:        String(orderData.phone || ''),
       address:      String(orderData.address || '')
     };
