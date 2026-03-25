@@ -47,6 +47,7 @@ const ProductCard = ({ product }) => {
           <img 
             src={images[currentImageIndex]} 
             alt={product.name} 
+            loading="lazy"
             style={{ 
               width: '100%', 
               height: '100%', 

@@ -14,6 +14,8 @@ const Home = () => {
               src="/nas_logo.jpg" 
               alt="NasLmla7 Brand Logo" 
               className="hero-logo-img"
+              loading="eager"
+              fetchpriority="high"
             />
           </div>
           <span className="hero-badge" style={{ 

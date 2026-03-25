@@ -172,6 +172,8 @@ const ProductDetails = () => {
                   alt={product.name} 
                   onClick={() => setIsImageZoomed(true)}
                   title="انقر للتكبير"
+                  loading="eager"
+                  fetchpriority="high"
                   style={{ 
                     width: '100%', 
                     height: 'auto', 
