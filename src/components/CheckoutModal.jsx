@@ -173,19 +173,6 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
               توصلنا بالطلب ديالكم بنجاح. فريقنا غادي يتواصل معاكم في مكالمة هاتفية في أقل من 20 ساعة باش نأكدوا المعلومات ونصيفطوا ليكم السلعة.
             </p>
             
-            <div style={{
-              margin: '1.5rem 0',
-              padding: '1.25rem',
-              background: '#f8fafc',
-              border: '2px solid #e2e8f0',
-              borderRadius: '1rem',
-              textAlign: 'center'
-            }}>
-              <span style={{ display: 'block', fontSize: '0.9rem', color: '#64748b', marginBottom: '0.25rem' }}>رقم الطلب المرجعي:</span>
-              <span className="numerals" style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--primary)', letterSpacing: '2px' }}>
-                NL-{Math.floor(Math.random() * 90000) + 10000}
-              </span>
-            </div>
 
             <div style={{
               background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
