@@ -157,9 +157,13 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
     }
   };
   return (
-    <div className="modal-overlay">
-      <div className="modal-content glass fade-in">
-        <button onClick={handleClose} className="close-btn">
+    <div className="modal-overlay" onClick={handleClose}>
+      <div className="modal-content glass fade-in" onClick={(e) => e.stopPropagation()}>
+        <button 
+          onClick={handleClose} 
+          className="close-btn"
+          aria-label="إغلاق"
+        >
           <X size={24} />
         </button>
         {isOrdered ? (
@@ -361,16 +365,27 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
         }
         .close-btn {
           position: absolute;
-          top: 1.5rem;
-          left: 1.5rem;
-          background: transparent;
+          top: 0.75rem;
+          left: 0.75rem;
+          background: white;
           color: var(--text-secondary);
-          padding: 0.5rem;
+          padding: 10px;
           border-radius: 50%;
+          z-index: 100;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: var(--shadow-sm);
+          border: 1px solid var(--border);
+          transition: all 0.2s ease;
+          min-width: 44px;
+          min-height: 44px;
         }
         .close-btn:hover {
-          background: rgba(0,0,0,0.05);
+          background: #f8fafc;
           color: var(--text-main);
+          transform: scale(1.05);
         }
         .modal-title {
           font-size: 1.5rem;
