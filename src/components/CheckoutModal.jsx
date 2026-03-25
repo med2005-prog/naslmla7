@@ -26,7 +26,9 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
   const checkoutItems = isCartCheckout ? items : [product];
   const totalPrice = checkoutItems.reduce((sum, item) => {
     const hasPromo = item.hasPromo && item.promoPrice && item.promoEndDate && new Date(item.promoEndDate) > new Date();
-    return sum + (hasPromo ? parseFloat(item.promoPrice) : parseFloat(item.price));
+    const price = hasPromo ? item.promoPrice : item.price;
+    const numericPrice = parseFloat(price) || 0;
+    return sum + numericPrice;
   }, 0);
   if (checkoutItems.length === 0) return null;
   const validateForm = () => {

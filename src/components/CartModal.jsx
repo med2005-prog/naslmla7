@@ -9,7 +9,8 @@ const CartModal = ({ isOpen, onClose }) => {
   const total = items.reduce((sum, item) => {
     const hasPromo = item.hasPromo && item.promoPrice && item.promoEndDate && new Date(item.promoEndDate) > new Date();
     const price = hasPromo ? item.promoPrice : item.price;
-    return sum + parseFloat(price);
+    const numericPrice = parseFloat(price) || 0;
+    return sum + numericPrice;
   }, 0);
   return (
     <>
