@@ -16,6 +16,7 @@ export const sendOrderToGoogleSheets = async (orderData) => {
       }),
       productName:  String(orderData.productName || 'منتج غير معروف'),
       productPrice: Number(orderData.productPrice || 0),
+      totalPrice:   Number(orderData.productPrice || 0), // Adding both to be safe
       customerName: String(orderData.fullName || 'عميل مجهول'),
       phone:        String(orderData.phone || ''),
       address:      String(orderData.address || '')
