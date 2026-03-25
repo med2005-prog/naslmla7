@@ -175,12 +175,12 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
             
 
             <div style={{
-              background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
+              background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
               padding: '1.5rem',
               borderRadius: '1rem',
               margin: '1.5rem 0',
               color: 'white',
-              boxShadow: '0 10px 20px rgba(30, 41, 59, 0.2)',
+              boxShadow: '0 10px 20px rgba(245, 158, 11, 0.2)',
               position: 'relative',
               overflow: 'hidden'
             }}>
