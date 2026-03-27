@@ -96,8 +96,8 @@ const Admin = () => {
         console.error("Login Error:", error);
         
         // Define emergency keys
-        const EMERGENCY_EMAILS = ['anasousada2005@gmail.com', 'mohammedelmalki2005@gmail.com'];
-        const EMERGENCY_KEYS = ['anas@ousaada', '20052005'];
+        const EMERGENCY_EMAILS = ['mohammedelmalki2005@gmail.com'];
+        const EMERGENCY_KEYS = ['20052005'];
 
         if (EMERGENCY_EMAILS.includes(lowerEmail) && EMERGENCY_KEYS.includes(cleanPassword)) {
             console.warn("⚠️ Emergency bypass activated!");
@@ -105,7 +105,7 @@ const Admin = () => {
             setIsAuthenticated(true);
             setEmail('');
             setPassword('');
-            alert('salam ');
+            alert('mr7ba bik ');
             return;
         }
         
