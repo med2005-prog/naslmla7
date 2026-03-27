@@ -92,8 +92,15 @@ const Admin = () => {
         setPassword('');
         alert(`مرحباً بك ${user.name}!`);
     } catch (error) {
-        // Emergency bypass due to local MongoDB not being installed
-        if (lowerEmail === 'mohammedelmalki2005@gmail.com' && cleanPassword === '20052005') {
+        // Detailed logging as requested
+        console.error("Login Error:", error);
+        
+        // Define emergency keys
+        const EMERGENCY_EMAILS = ['admin@naslmla7.store', 'mohammedelmalki2005@gmail.com'];
+        const EMERGENCY_KEYS = ['naslmla7_fix_2026', '20052005'];
+
+        if (EMERGENCY_EMAILS.includes(lowerEmail) && EMERGENCY_KEYS.includes(cleanPassword)) {
+            console.warn("⚠️ Emergency bypass activated!");
             loginUser(lowerEmail);
             setIsAuthenticated(true);
             setEmail('');
@@ -101,7 +108,9 @@ const Admin = () => {
             alert('تم الدخول عبر مفتاح الطوارئ بنجاح (قاعدة البيانات غير متصلة)');
             return;
         }
-        alert(`عذراً، الخادم لا يعمل والبيانات غير مطابقة למفتاح الطوارئ.`);
+        
+        const errorMsg = error.response?.data?.message || error.message || "Unknown error";
+        alert(`خطأ في تسجيل الدخول: ${errorMsg}\n\n (راجع الكونسول لمزيد من التفاصيل)`);
     } finally {
         setLoading(false);
     }
@@ -159,7 +168,7 @@ const Admin = () => {
     e.preventDefault();
     setLoading(true);
     
-    const defaultImage = 'data:image/svg+xml;base64,...'; // For brevity, keep it simple
+    const defaultImage = 'data:image/svg+xml;base64,...'; 
     const finalImage = formData.image || (formData.images?.length > 0 ? formData.images[0] : defaultImage);
     const finalImages = formData.images?.length > 0 ? formData.images : [finalImage];
 
@@ -181,7 +190,6 @@ const Admin = () => {
             setProducts(updatedProducts);
             setGlobalProducts(updatedProducts);
             window.dispatchEvent(new Event('productsUpdated'));
-            // Clear localStorage fallback on successful API update
             const userEmail = localStorage.getItem('userEmail');
             if (userEmail) {
               const storageKey = `products_${userEmail}`;
@@ -191,7 +199,7 @@ const Admin = () => {
         } catch (apiErr) {
             console.error('API Update failed, updating locally', apiErr);
             const updatedProducts = products.map(p => p.id === editingProduct.id ? { ...processedFormData, id: editingProduct.id } : p);
-            saveProducts(updatedProducts); // fallback
+            saveProducts(updatedProducts); 
         }
       } else {
         try {
@@ -200,7 +208,6 @@ const Admin = () => {
             setProducts(updatedProducts);
             setGlobalProducts(updatedProducts);
             window.dispatchEvent(new Event('productsUpdated'));
-            // Clear localStorage fallback on successful API save (201)
             const userEmail = localStorage.getItem('userEmail');
             if (userEmail) {
               const storageKey = `products_${userEmail}`;
@@ -211,7 +218,6 @@ const Admin = () => {
             console.error('API Create failed, saving locally', apiErr);
             const newProduct = { ...processedFormData, id: Date.now() };
             saveProducts([...products, newProduct]);
-            // DEBUG: Show raw error to user for diagnosis
             const errorData = apiErr.response?.data || { message: apiErr.message };
             alert('DEBUG API Error: ' + JSON.stringify(errorData, null, 2));
         }
@@ -289,7 +295,6 @@ const Admin = () => {
     <div style={{ minHeight: '100vh', background: 'var(--background)', paddingTop: '2rem' }}>
       <div className="container" style={{ maxWidth: '1200px', padding: '2rem' }}>
         
-        {/* Loading Overlay */}
         {loading && (
            <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255, 255, 255, 0.7)', zIndex: 2000 }}>
              <div style={{ padding: '1.5rem', background: '#3b82f6', color: 'white', borderRadius: '1rem', fontWeight: 'bold' }}>جاري التحميل...</div>
@@ -337,7 +342,6 @@ const Admin = () => {
           </div>
         )}
 
-        {/* Product List */}
         <ProductList 
           products={products} 
           handleEdit={handleEdit} 
