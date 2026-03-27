@@ -1,6 +1,17 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || '/api';
+const getApiUrl = () => {
+  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+  
+  if (typeof window !== 'undefined' && 
+      (window.location.hostname === 'naslmla7.store' || 
+       window.location.hostname.endsWith('vercel.app'))) {
+      return 'https://naslmla7.store/api';
+  }
+  return '/api';
+};
+
+const API_URL = getApiUrl();
 
 const axiosInstance = axios.create({
   baseURL: API_URL,

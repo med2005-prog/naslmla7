@@ -1,4 +1,19 @@
-const API_URL = import.meta.env.VITE_API_URL || '/api';
+const getApiUrl = () => {
+    // If VITE_API_URL is explicitly set (e.g. in local .env or Vercel env), use it
+    if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+    
+    // If we're running on the live domain or Vercel, use the absolute production URL
+    if (typeof window !== 'undefined' && 
+        (window.location.hostname === 'naslmla7.store' || 
+         window.location.hostname.endsWith('vercel.app'))) {
+        return 'https://naslmla7.store/api';
+    }
+    
+    // Default fallback (useful for relative paths or development)
+    return '/api';
+};
+
+const API_URL = getApiUrl();
 
 // Helper to get auth headers
 const getAuthHeaders = () => {

@@ -40,7 +40,7 @@ app.use('/api/', limiter);
 // Stricter rate limiting for auth routes
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 5,
+  max: 20, // Increased from 5 to 20 for better UX during setup
   message: 'Too many login attempts, please try again after 15 minutes'
 });
 app.use('/api/auth/login', authLimiter);
@@ -66,8 +66,15 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    
+    // Check if the origin matches our set of allowed domains
+    const isAllowed = allowedOrigins.some(item => item === origin) || 
+                      origin.endsWith('.vercel.app') || 
+                      origin.includes('naslmla7.store');
+    
+    if (isAllowed) {
       callback(null, true);
     } else {
       console.log('CORS blocked origin: ' + origin);
