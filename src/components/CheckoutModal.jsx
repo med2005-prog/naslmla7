@@ -147,14 +147,6 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
         }
         console.log('Order submitted:', { productNames, ...formData });
         setIsOrdered(true);
-        // Play success sound
-        try {
-          const audio = new Audio('https://drive.google.com/uc?export=download&id=1b0HaMy_Ga9aUpAHMrWYpSLd665mDOmZT');
-          audio.volume = 0.5;
-          audio.play();
-        } catch (e) {
-          console.log('Audio play failed:', e);
-        }
       } else {
         alert('عذراً، حدث خطأ أثناء إرسال الطلب. يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.');
       }
