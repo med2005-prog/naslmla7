@@ -92,12 +92,10 @@ const ProductForm = ({
             <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>
               الفئة
             </label>
-            <input
-              list="category-list"
+            <select
               name="category"
-              value={formData.category}
+              value={formData.category || (categories.length > 0 ? categories[0] : 'عام')}
               onChange={handleInputChange}
-              placeholder="اختر أو اكتب فئة جديدة..."
               style={{
                 width: '100%',
                 padding: '0.75rem',
@@ -107,13 +105,11 @@ const ProductForm = ({
                 background: 'white'
               }}
               required
-            />
-            <datalist id="category-list">
-              <option value="الكل" />
+            >
               {categories.map(cat => (
-                <option key={cat} value={cat} />
+                <option key={cat} value={cat}>{cat}</option>
               ))}
-            </datalist>
+            </select>
           </div>
 
           {/* الوصف المختصر */}
