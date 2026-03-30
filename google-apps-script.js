@@ -1,6 +1,49 @@
 // Google Apps Script للصق في Google Sheets
 // Extensions > Apps Script
 
+// ==========================================
+// إعدادات تيليجرام (Telegram Settings)
+// ==========================================
+// ضع التوكن الخاص بالبوت الذي بإنشائه من @BotFather
+var TELEGRAM_BOT_TOKEN = "8746458811:AAElA2laUu_gtFwXC1F-ZvII1LnZJlfEM1g"; 
+// ضع معرّف المحادثة الخاص بك (عن طريق @userinfobot)
+var TELEGRAM_CHAT_ID = "5545563502"; 
+
+function sendTelegramNotification(orderData) {
+  if (TELEGRAM_BOT_TOKEN === "ضع_التوكن_هنا" || TELEGRAM_CHAT_ID === "ضع_رقم_الـ_ID_هنا") {
+    // لم يتم إعداد التيليجرام بعد، يتم التجاهل.
+    return;
+  }
+  
+  var message = "🛍️ *طلب جديد من المتجر!*\n\n" +
+                "📦 *المنتج:* " + orderData.productName + "\n" +
+                "💰 *السعر:* " + orderData.productPrice + " MAD\n\n" +
+                "👤 *الزبون:* " + orderData.customerName + "\n" +
+                "📱 *الهاتف:* [" + orderData.phone + "](tel:" + orderData.phone + ")\n" +
+                "📍 *العنوان:* " + orderData.address + "\n\n" +
+                "⏰ *التاريخ:* " + orderData.timestamp;
+
+  var telegramUrl = "https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage";
+  
+  var payload = {
+    "chat_id": TELEGRAM_CHAT_ID,
+    "text": message,
+    "parse_mode": "Markdown"
+  };
+  
+  var options = {
+    "method": "post",
+    "contentType": "application/json",
+    "payload": JSON.stringify(payload)
+  };
+  
+  try {
+    UrlFetchApp.fetch(telegramUrl, options);
+  } catch (e) {
+    Logger.log("فشل إرسال إشعار تيليجرام: " + e.message);
+  }
+}
+
 function doPost(e) {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -28,7 +71,7 @@ function doPost(e) {
                  .setFontWeight("bold")
                  .setHorizontalAlignment("center");
                  
-      // التحكم في عرض الأمدة
+      // التحكم في عرض الأعمدة
       sheet.setColumnWidth(1, 150); // التاريخ
       sheet.setColumnWidth(7, 100); // الحذف
     }
@@ -49,6 +92,9 @@ function doPost(e) {
     
     sheet.appendRow(newRow);
     var lastRow = sheet.getLastRow();
+    
+    // إرسال رسالة إلى تيليجرام
+    sendTelegramNotification(data);
     
     // تنسيق زر الحذف
     var deleteCell = sheet.getRange(lastRow, 7);
