@@ -26,7 +26,14 @@ const Admin = () => {
 
   const handleDeleteCategory = (cat) => {
     if (window.confirm(`سوف تحذف فئة "${cat}". هل أنت متأكد؟ (المنتجات ستتحول لـ "الكل")`)) {
-       const updatedProducts = products.map(p => (p.category || '') === cat ? { ...p, category: 'الكل' } : p);
+       const updatedProducts = products.map(p => {
+         let currentCats = (p.category || '').split(',').filter(c => c.trim() !== '');
+         if (currentCats.includes(cat)) {
+            currentCats = currentCats.filter(c => c !== cat);
+            return { ...p, category: currentCats.length > 0 ? currentCats.join(',') : 'الكل' };
+         }
+         return p;
+       });
        saveProducts(updatedProducts);
        const newList = categories.filter(c => c !== cat);
        setCategories(newList);
@@ -421,7 +428,7 @@ const Admin = () => {
         )}
 
         <ProductList 
-          products={filterCategory === 'الكل' ? products : products.filter(p => (p.category || '') === filterCategory)} 
+          products={filterCategory === 'الكل' ? products : products.filter(p => (p.category || '').split(',').filter(c => c.trim() !== '').includes(filterCategory))} 
           handleEdit={handleEdit} 
           handleDelete={handleDelete} 
           setShowForm={setShowForm} 

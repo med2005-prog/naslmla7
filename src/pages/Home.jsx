@@ -9,7 +9,7 @@ const Home = () => {
 
   const filteredProducts = activeCategory === "الكل" 
     ? products 
-    : products.filter(p => (p.category || '') === activeCategory);
+    : products.filter(p => (p.category || '').split(',').map(c=>c.trim()).includes(activeCategory));
 
   return (
     <>

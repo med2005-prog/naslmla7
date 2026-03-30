@@ -92,24 +92,43 @@ const ProductForm = ({
             <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>
               الفئة
             </label>
-            <select
-              name="category"
-              value={formData.category || (categories.length > 0 ? categories[0] : '')}
-              onChange={handleInputChange}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                border: '2px solid var(--border)',
-                borderRadius: '0.5rem',
-                fontSize: '1rem',
-                background: 'white'
-              }}
-              required
-            >
-              {categories.map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.5rem' }}>
+              {categories.map(cat => {
+                const isSelected = (formData.category || '').split(',').includes(cat);
+                return (
+                  <label key={cat} style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '0.5rem',
+                    padding: '0.5rem 1rem',
+                    background: isSelected ? 'var(--primary)' : 'white',
+                    color: isSelected ? 'white' : 'var(--text)',
+                    border: isSelected ? '1px solid var(--primary)' : '1px solid var(--border)',
+                    borderRadius: '2rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    fontSize: '0.9rem',
+                    fontWeight: isSelected ? 600 : 400
+                  }}>
+                    <input 
+                      type="checkbox" 
+                      checked={isSelected}
+                      onChange={() => {
+                        const currentCats = formData.category ? formData.category.split(',').filter(c => c.trim() !== '') : [];
+                        if (currentCats.includes(cat)) {
+                          setFormData({ ...formData, category: currentCats.filter(c => c !== cat).join(',') });
+                        } else {
+                          setFormData({ ...formData, category: [...currentCats, cat].join(',') });
+                        }
+                      }}
+                      style={{ display: 'none' }}
+                    />
+                    {cat}
+                  </label>
+                );
+              })}
+              {categories.length === 0 && <span style={{color: '#999', fontSize: '0.9rem'}}>لم يتم إنشاء فئات بعد. قم بإنشائها من لوحة "إدارة الفئات" أولاً.</span>}
+            </div>
           </div>
 
           {/* الوصف المختصر */}
