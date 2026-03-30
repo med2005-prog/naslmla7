@@ -36,7 +36,7 @@ const Home = () => {
             كل ما تبحث عنه في مكان واحد
           </span>
           <h1 className="hero-title">
-            منتجات متنوعة تناسب <span className="text-highlight">احتياجاتك</span> اليومية بأفضل جودة
+            أفضل المنتجات لـ <span className="text-highlight">احتياجاتك</span> اليومية
           </h1>
 
           <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -157,38 +157,41 @@ const Home = () => {
         }
         @media (max-width: 768px) {
           .hero-header {
-            padding: 4rem 1.5rem;
+            padding: 2.5rem 1.5rem;
           }
           .hero-title {
-            font-size: 2.2rem;
+            font-size: 2rem;
           }
           .products-section {
-            padding: 3rem 0 !important;
+            padding: 2rem 0 !important;
           }
         }
         @media (max-width: 480px) {
           .hero-header {
-            min-height: 25vh;
-            padding: 3rem 1rem;
+            min-height: auto;
+            padding: 1.25rem 1rem;
           }
           .hero-logo-img {
-            width: 70px;
-            height: 70px;
+            width: 55px;
+            height: 55px;
+            margin-bottom: 0.5rem;
           }
           .hero-badge {
-             font-size: 0.75rem;
-             margin-bottom: 0.75rem;
+             font-size: 0.7rem;
+             margin-bottom: 0.5rem;
+             padding: 0.2rem 0.6rem;
           }
           .hero-title {
-            font-size: 1.75rem;
+            font-size: 1.25rem;
             text-shadow: none;
+            margin-bottom: 0.75rem;
           }
           .hero-btn {
-            font-size: 0.85rem;
-            padding: 0.6rem 1.2rem;
+            font-size: 0.8rem;
+            padding: 0.5rem 1rem;
           }
           .products-section {
-            padding: 2rem 0 !important;
+            padding: 1rem 0 !important;
           }
         }
         @keyframes pulse {
