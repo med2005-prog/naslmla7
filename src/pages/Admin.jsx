@@ -13,7 +13,6 @@ const Admin = () => {
   const navigate = useNavigate();
   const { setProducts: setGlobalProducts, categories } = useProducts();
   const [showCategoryManager, setShowCategoryManager] = useState(false);
-  const [newCategoryName, setNewCategoryName] = useState('');
   const handleDeleteCategory = (cat) => {
     if (window.confirm(`سيتم تحويل فئة المنتجات التابعة لـ "${cat}" إلى "الكل". هل أنت متأكد؟`)) {
        const updatedProducts = products.map(p => (p.category || 'عام') === cat ? { ...p, category: 'الكل' } : p);
@@ -382,15 +381,8 @@ const Admin = () => {
                 <button onClick={() => setShowCategoryManager(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><X size={24} /></button>
               </div>
               
-              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '2rem' }}>
-                <input 
-                  type="text" 
-                  value={newCategoryName} 
-                  onChange={(e) => setNewCategoryName(e.target.value)} 
-                  placeholder="اسم الفئة الجديدة" 
-                  style={{ flex: 1, padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid var(--border)' }}
-                />
-                <button onClick={handleAddCategory} className="btn btn-primary">إضافة</button>
+               <div style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem', textAlign: 'center' }}>
+                💡 ملاحظة: لإضافة فئة جديدة، ببساطة اكتب اسمها في خانة "الفئة" داخل فورم المنتج.
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '300px', overflowY: 'auto' }}>
