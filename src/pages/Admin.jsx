@@ -24,8 +24,11 @@ const Admin = () => {
 
   const handleDeleteCategory = (cat) => {
     if(categories.length > 1) {
-       if (window.confirm(`هل أنت متأكد من حذف فئة "${cat}"؟ سيتم الاحتفاظ بالمنتجات ولكن تأكد من تعديل فئتها لاحقاً.`)) {
+       if (window.confirm(`هل أنت متأكد من حذف فئة "${cat}"؟ سيتم الاحتفاظ بالمنتجات ولكن سيتم تحويل فئتها تلقائياً إلى "الكل".`)) {
            setCategories(categories.filter(c => c !== cat));
+           // Re-categorize products
+           const updatedProducts = products.map(p => (p.category || 'عام') === cat ? { ...p, category: 'الكل' } : p);
+           saveProducts(updatedProducts);
            if (filterCategory === cat) setFilterCategory('الكل');
        }
     } else {

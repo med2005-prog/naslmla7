@@ -8,8 +8,14 @@ export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Derive categories from current products list
-  const categories = ["عام", ...new Set(products.map(p => p.category || 'عام'))].filter(cat => cat && cat !== "الكل");
+  const [categories, setCategories] = useState(() => {
+    try {
+      const saved = localStorage.getItem('app_categories');
+      return saved ? JSON.parse(saved) : ["عام"];
+    } catch {
+      return ["عام"];
+    }
+  });
 
   useEffect(() => {
     localStorage.setItem('app_categories', JSON.stringify(categories));
@@ -66,7 +72,7 @@ export const ProductsProvider = ({ children }) => {
   }, [loadProducts]);
 
   return (
-    <ProductsContext.Provider value={{ products, loading, setProducts, loadProducts, categories }}>
+    <ProductsContext.Provider value={{ products, loading, setProducts, loadProducts, categories, setCategories }}>
       {children}
     </ProductsContext.Provider>
   );
