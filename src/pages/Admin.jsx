@@ -11,28 +11,14 @@ import ProductList from '../components/admin/ProductList';
 
 const Admin = () => {
   const navigate = useNavigate();
-  const { setProducts: setGlobalProducts, categories, setCategories } = useProducts();
+  const { setProducts: setGlobalProducts, categories } = useProducts();
   const [showCategoryManager, setShowCategoryManager] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
-
-  const handleAddCategory = () => {
-    if (newCategoryName.trim() && !categories.includes(newCategoryName.trim())) {
-      setCategories([...categories, newCategoryName.trim()]);
-      setNewCategoryName('');
-    }
-  };
-
   const handleDeleteCategory = (cat) => {
-    if(categories.length > 1) {
-       if (window.confirm(`هل أنت متأكد من حذف فئة "${cat}"؟ سيتم الاحتفاظ بالمنتجات ولكن سيتم تحويل فئتها تلقائياً إلى "الكل".`)) {
-           setCategories(categories.filter(c => c !== cat));
-           // Re-categorize products
-           const updatedProducts = products.map(p => (p.category || 'عام') === cat ? { ...p, category: 'الكل' } : p);
-           saveProducts(updatedProducts);
-           if (filterCategory === cat) setFilterCategory('الكل');
-       }
-    } else {
-       alert("لا يمكنك حذف جميع الفئات!");
+    if (window.confirm(`سيتم تحويل فئة المنتجات التابعة لـ "${cat}" إلى "الكل". هل أنت متأكد؟`)) {
+       const updatedProducts = products.map(p => (p.category || 'عام') === cat ? { ...p, category: 'الكل' } : p);
+       saveProducts(updatedProducts);
+       if (filterCategory === cat) setFilterCategory('الكل');
     }
   };
   const [isAuthenticated, setIsAuthenticated] = useState(isUserAuthenticated());
