@@ -11,13 +11,15 @@ import ProductList from '../components/admin/ProductList';
 
 const Admin = () => {
   const navigate = useNavigate();
-  const { setProducts: setGlobalProducts, categories, setCategories } = useProducts();
+  const { setProducts: setGlobalProducts, categories, setCategories, syncCategoriesToDB } = useProducts();
   const [showCategoryManager, setShowCategoryManager] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
 
   const handleAddCategory = () => {
     if (newCategoryName.trim() && !categories.includes(newCategoryName.trim())) {
-      setCategories([...categories, newCategoryName.trim()]);
+      const newList = [...categories, newCategoryName.trim()];
+      setCategories(newList);
+      syncCategoriesToDB(newList);
       setNewCategoryName('');
     }
   };
@@ -26,7 +28,9 @@ const Admin = () => {
     if (window.confirm(`سوف تحذف فئة "${cat}". هل أنت متأكد؟ (المنتجات ستتحول لـ "الكل")`)) {
        const updatedProducts = products.map(p => (p.category || 'عام') === cat ? { ...p, category: 'الكل' } : p);
        saveProducts(updatedProducts);
-       setCategories(categories.filter(c => c !== cat));
+       const newList = categories.filter(c => c !== cat);
+       setCategories(newList);
+       syncCategoriesToDB(newList);
        if (filterCategory === cat) setFilterCategory('الكل');
     }
   };

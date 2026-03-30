@@ -8,50 +8,38 @@ export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Persist category list for user control
-  const [categories, setCategories] = useState(() => {
-    try {
-      const saved = localStorage.getItem('app_categories');
-      // If we have products with categories not in the saved list, we should include them too
-      const productCats = products && products.length > 0 ? [...new Set(products.map(p => p.category || 'عام'))] : [];
-      const merged = saved ? JSON.parse(saved) : ["عام"];
-      return [...new Set([...merged, ...productCats])].filter(cat => cat && cat !== "الكل");
-    } catch {
-      return ["عام"];
-    }
-  });
-
-  useEffect(() => {
-    localStorage.setItem('app_categories', JSON.stringify(categories));
-  }, [categories]);
+  // Categories state
+  const [categories, setCategories] = useState(["عام"]);
 
   const loadProducts = useCallback(async () => {
     setLoading(true);
     try {
-        const fetchedProducts = await fetchProducts();
+        const fetchedProducts = await fetchProducts() || [];
         
-        // Also grab local products if any were made by admin before connection
-        const localProducts = [];
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key && key.startsWith('products_')) {
+        // Find the hidden global categories configuration product
+        const categoriesConfig = fetchedProducts.find(p => p.name === '__GLOBAL_CATEGORIES__');
+        let dbCategories = ["عام"];
+        
+        if (categoriesConfig && categoriesConfig.description) {
             try {
-              const adminProducts = JSON.parse(localStorage.getItem(key));
-              if (Array.isArray(adminProducts)) {
-                localProducts.push(...adminProducts);
-              }
-            } catch (err) {}
-          }
+                dbCategories = JSON.parse(categoriesConfig.description);
+            } catch (e) {
+                console.error("Failed to parse categories from DB", e);
+            }
         }
+
+        // Filter out the config record from the public products list
+        const actualProducts = fetchedProducts.filter(p => p.name !== '__GLOBAL_CATEGORIES__');
         
-        // Priority to backend data, fallback to local or default if nothing
-        if (fetchedProducts && fetchedProducts.length > 0) {
-            setProducts(fetchedProducts);
-        } else if (localProducts.length > 0) {
-            setProducts(localProducts);
+        // Combine with default products if empty, otherwise use backend
+        if (actualProducts.length > 0) {
+            setProducts(actualProducts);
         } else {
             setProducts(defaultProducts);
         }
+
+        setCategories(dbCategories);
+
     } catch(err) {
         console.error('Failed to load products from API', err);
         setProducts(defaultProducts);
@@ -60,10 +48,32 @@ export const ProductsProvider = ({ children }) => {
     }
   }, []);
 
+  // Function to sync current categories list to the database globally
+  const syncCategoriesToDB = async (newList) => {
+    try {
+        const allProducts = await fetchProducts() || [];
+        const existingConfig = allProducts.find(p => p.name === '__GLOBAL_CATEGORIES__');
+        
+        const configData = {
+            name: '__GLOBAL_CATEGORIES__',
+            description: JSON.stringify(newList),
+            category: 'HIDDEN',
+            price: 0,
+            image: ''
+        };
+
+        if (existingConfig) {
+            await updateProduct(existingConfig._id || existingConfig.id, configData);
+        } else {
+            await createProduct(configData);
+        }
+    } catch (err) {
+        console.error("Failed to sync categories to DB", err);
+    }
+  };
+
   useEffect(() => {
-    setTimeout(() => {
-      loadProducts();
-    }, 0);
+    loadProducts();
 
     const handleUpdate = () => loadProducts();
     window.addEventListener('productsUpdated', handleUpdate);
@@ -76,7 +86,7 @@ export const ProductsProvider = ({ children }) => {
   }, [loadProducts]);
 
   return (
-    <ProductsContext.Provider value={{ products, loading, setProducts, loadProducts, categories, setCategories }}>
+    <ProductsContext.Provider value={{ products, loading, setProducts, loadProducts, categories, setCategories, syncCategoriesToDB }}>
       {children}
     </ProductsContext.Provider>
   );
