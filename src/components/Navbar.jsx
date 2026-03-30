@@ -13,7 +13,7 @@ const Navbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
   return (
     <>
-      <nav className="glass" style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '1rem 0' }}>
+      <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '1rem 0', background: 'transparent' }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           {/* Logo - Flex: 1 to help centering the menu */}
           <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-start' }}>
@@ -238,6 +238,11 @@ const Navbar = () => {
             color: white;
             border-color: transparent;
             box-shadow: 0 8px 20px rgba(25, 83, 157, 0.3);
+            animation: pulse-cart 1.5s infinite ease-in-out;
+          }
+          @keyframes pulse-cart {
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 20px rgba(25, 83, 157, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 12px 25px rgba(25, 83, 157, 0.5); }
           }
           .cart-pill-btn:hover {
             transform: translateY(-3px) scale(1.05);

@@ -31,8 +31,8 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
       ? (item.promoPrice ?? item.PromoPrice ?? 0)
       : (item.price ?? item.Prix ?? item.prix ?? 0);
     const numericPrice = parseFloat(rawPrice) || 0;
-    console.log('💰 item price debug:', { name: item.name, rawPrice, numericPrice });
-    return sum + numericPrice;
+    console.log('💰 item price debug:', { name: item.name, rawPrice, numericPrice, quantity: item.quantity || 1 });
+    return sum + (numericPrice * (item.quantity || 1));
   }, 0);
   if (checkoutItems.length === 0) return null;
   const validateForm = () => {
@@ -75,7 +75,7 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
           if (!acc[key]) {
             acc[key] = { name: item.name, count: 0 };
           }
-          acc[key].count += 1;
+          acc[key].count += (item.quantity || 1);
           return acc;
         }, {});
         const productNames = Object.values(aggregatedItems).map(item => {
@@ -220,8 +220,8 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
                   <ul style={{listStyle: 'none', padding: 0, maxHeight: '100px', overflowY: 'auto', marginBottom: '0.5rem'}}>
                     {checkoutItems.map((item, idx) => (
                       <li key={idx} style={{display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', marginBottom: '0.25rem'}}>
-                        <span>{item.name}</span>
-                        <span>{item.hasPromo && new Date(item.promoEndDate) > new Date() ? item.promoPrice : item.price}</span>
+                        <span>{item.name} {item.quantity > 1 ? `(x${item.quantity})` : ''}</span>
+                        <span>{item.hasPromo && new Date(item.promoEndDate) > new Date() ? item.promoPrice : item.price} MAD</span>
                       </li>
                     ))}
                   </ul>

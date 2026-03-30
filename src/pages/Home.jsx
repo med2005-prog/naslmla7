@@ -117,8 +117,8 @@ const Home = () => {
           justify-content: center;
           position: relative;
           text-align: center;
-          background-color: #f8fafc;
-          border-bottom: 1px solid #f1f5f9;
+          background: linear-gradient(135deg, #0077ffff 0%, #a9abadff 100%);
+          border-bottom: 1px solid #dce8f6;
         }
         .hero-logo-container {
           display: flex;

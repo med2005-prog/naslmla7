@@ -5,15 +5,7 @@ const Footer = () => {
     <footer id="contact" className="site-footer">
       <div className="container">
         <div className="footer-grid">
-          <div>
-            <h3 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <img src="/nas_logo.jpg" alt="Logo" style={{ width: '55px', height: '55px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--primary)' }} />
-              Nas lmla7
-            </h3>
-            <p style={{ color: '#94a3b8', maxWidth: '300px' }}>
-              متجرك الأول للتسوق الإلكتروني. جودة، سرعة، وثقة.
-            </p>
-          </div>
+
           <div>
             <h4 style={{ fontSize: '1.2rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '2px solid var(--primary)', width: 'fit-content', paddingBottom: '0.25rem' }}>
               <LinkIcon size={20} color="var(--primary)" />
@@ -143,36 +135,65 @@ const Footer = () => {
         }
         @media (max-width: 768px) {
           .site-footer {
-            padding: 2.5rem 0;
-            min-height: 25vh;
+            padding: 1.5rem 0;
+            min-height: auto;
           }
           .footer-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
+            gap: 1rem;
           }
           .footer-grid > div:first-child {
             grid-column: 1 / -1;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
           }
           .site-footer h3 {
-             font-size: 1.25rem !important;
-             margin-bottom: 0.75rem !important;
+             font-size: 1.15rem !important;
+             margin-bottom: 0.5rem !important;
           }
           .site-footer h4 {
-             font-size: 1.1rem !important;
-             margin-bottom: 1rem !important;
+             font-size: 1rem !important;
+             margin-bottom: 0.5rem !important;
           }
           .site-footer p, .site-footer ul, .site-footer a {
-             font-size: 0.9rem !important;
+             font-size: 0.85rem !important;
           }
         }
         @media (max-width: 480px) {
            .footer-grid {
-             gap: 1.5rem;
+             display: flex;
+             flex-direction: column;
+             gap: 1rem;
+           }
+           .footer-grid > div:first-child {
+             display: none;
            }
            .site-footer {
-             padding: 2rem 0;
+             padding: 1rem 0 0.5rem 0;
+           }
+           .footer-grid > div:nth-child(2) {
+             display: flex;
+             flex-wrap: wrap;
+             gap: 0.5rem;
+           }
+           .footer-grid > div:nth-child(2) h4 {
+             flex: 1 1 100%;
+             margin-bottom: 0.5rem !important;
+           }
+           .hover-text {
+             padding: 0 !important;
+             margin-bottom: 0 !important;
+             margin-right: 0.5rem;
+             font-size: 0 !important; /* Hide text, keep only icon */
+           }
+           .hover-text img {
+             width: 25px !important;
+             height: 25px !important;
+           }
+           div[style*='margin-top: 3rem'] {
+             margin-top: 1rem !important;
+             padding-top: 0.75rem !important;
+             font-size: 0.75rem;
            }
         }
         `}</style>

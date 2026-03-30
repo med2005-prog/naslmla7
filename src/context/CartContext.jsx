@@ -19,18 +19,28 @@ export const CartProvider = ({ children }) => {
     }
   }, [items]);
   const addToCart = (product) => {
-    setItems(prev => [...prev, product]);
+    setItems(prev => {
+      const existingIndex = prev.findIndex(item => (item._id || item.id) === (product._id || product.id));
+      if (existingIndex >= 0) {
+        const newItems = [...prev];
+        newItems[existingIndex] = { ...newItems[existingIndex], quantity: (newItems[existingIndex].quantity || 1) + 1 };
+        return newItems;
+      }
+      return [...prev, { ...product, quantity: 1 }];
+    });
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 600);
   };
   const clearCart = () => {
     setItems([]);
   };
-  const removeFromCart = (indexToRemove) => {
-    setItems(prevItems => prevItems.filter((_, index) => index !== indexToRemove));
+  const removeFromCart = (productId) => {
+    setItems(prevItems => prevItems.filter(item => (item._id || item.id) !== productId));
   };
+  const cartCount = items.reduce((total, item) => total + (item.quantity || 1), 0);
+
   return (
-    <CartContext.Provider value={{ items, addToCart, removeFromCart, cartCount: items.length, isAnimating, clearCart }}>
+    <CartContext.Provider value={{ items, addToCart, removeFromCart, cartCount, isAnimating, clearCart }}>
       {children}
     </CartContext.Provider>
   );

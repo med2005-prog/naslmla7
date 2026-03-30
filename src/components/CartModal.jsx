@@ -10,7 +10,7 @@ const CartModal = ({ isOpen, onClose }) => {
     const hasPromo = item.hasPromo && item.promoPrice && item.promoEndDate && new Date(item.promoEndDate) > new Date();
     const price = hasPromo ? item.promoPrice : item.price;
     const numericPrice = parseFloat(price) || 0;
-    return sum + numericPrice;
+    return sum + (numericPrice * (item.quantity || 1));
   }, 0);
   return (
     <>
@@ -33,9 +33,16 @@ const CartModal = ({ isOpen, onClose }) => {
             ) : (
               items.map((item, index) => (
                 <div key={`${item.id}-${index}`} className="cart-item">
-                  <img src={item.image} alt={item.name} className="cart-item-img" />
+                  <img src={item.image || (item.images && item.images[0])} alt={item.name} className="cart-item-img" />
                   <div style={{ flex: 1 }}>
-                    <h4>{item.name}</h4>
+                    <h4 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      {item.name}
+                      {item.quantity > 1 && (
+                        <span style={{ fontSize: '0.8rem', background: 'var(--primary)', color: 'white', padding: '0.1rem 0.5rem', borderRadius: '1rem' }}>
+                           x{item.quantity}
+                        </span>
+                      )}
+                    </h4>
                     {item.hasPromo && item.promoPrice && item.promoEndDate && new Date(item.promoEndDate) > new Date() ? (
                         <div className="price">
                             <span className="numerals" style={{color: '#ef4444'}}>{item.promoPrice}</span> <span style={{fontSize: '0.8em'}}>MAD</span>
@@ -47,7 +54,7 @@ const CartModal = ({ isOpen, onClose }) => {
                     )}
                   </div>
                   <button 
-                    onClick={() => removeFromCart(index)}
+                    onClick={() => removeFromCart(item._id || item.id)}
                     style={{ background: 'none', border: 'none', color: '#ef4444', padding: '0.5rem', cursor: 'pointer', transition: 'color 0.2s' }}
                     title="حذف من السلة"
                   >
