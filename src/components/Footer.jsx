@@ -34,51 +34,53 @@ const Footer = () => {
               <MessageSquare size={20} color="var(--primary)" />
               تواصل معنا
             </h4>
-            <a 
-              href="https://www.instagram.com/nas.lmla7?igsh=OWhzemhyaWZmczE=" 
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', marginBottom: '0.5rem' }}
-              className="hover-text"
-            >
-              <img src="/icons/social_1.jpg" alt="Instagram" style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }} /> Instagram
-            </a>
-            <a 
-              href="https://youtube.com/@naslmla7?si=pSVaUPYj3L3Jx_l8" 
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', marginBottom: '0.5rem' }}
-              className="hover-text"
-            >
-              <img src="/icons/social_4.png" alt="YouTube" style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }} /> YouTube
-            </a>
-            <a 
-              href="https://www.facebook.com/share/1ERmQ7cdY1/" 
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', marginBottom: '0.5rem' }}
-              className="hover-text"
-            >
-              <img src="/icons/social_2.jpg" alt="Facebook" style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }} /> Facebook
-            </a>
-            <a 
-              href="https://tiktok.com/@nas.lmla7" 
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', marginBottom: '0.5rem' }}
-              className="hover-text"
-            >
-              <img src="/icons/social_3.jpg" alt="TikTok" style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }} /> TikTok
-            </a>
-            <a 
-              href="https://wa.me/212709277659" 
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: '#94a3b8', direction: 'ltr', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}
-              className="hover-text"
-            >
-              <img src="/icons/social_0.jpg" alt="WhatsApp" style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }} /> +212 709277659
-            </a>
+            <div className="social-links-wrapper">
+              <a 
+                href="https://www.instagram.com/nas.lmla7?igsh=OWhzemhyaWZmczE=" 
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', marginBottom: '0.5rem' }}
+                className="hover-text"
+              >
+                <img src="/icons/social_1.jpg" alt="Instagram" style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }} /> Instagram
+              </a>
+              <a 
+                href="https://youtube.com/@naslmla7?si=pSVaUPYj3L3Jx_l8" 
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', marginBottom: '0.5rem' }}
+                className="hover-text"
+              >
+                <img src="/icons/social_4.png" alt="YouTube" style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }} /> YouTube
+              </a>
+              <a 
+                href="https://www.facebook.com/share/1ERmQ7cdY1/" 
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', marginBottom: '0.5rem' }}
+                className="hover-text"
+              >
+                <img src="/icons/social_2.jpg" alt="Facebook" style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }} /> Facebook
+              </a>
+              <a 
+                href="https://tiktok.com/@nas.lmla7" 
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', marginBottom: '0.5rem' }}
+                className="hover-text"
+              >
+                <img src="/icons/social_3.jpg" alt="TikTok" style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }} /> TikTok
+              </a>
+              <a 
+                href="https://wa.me/212709277659" 
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}
+                className="hover-text"
+              >
+                <img src="/icons/social_0.jpg" alt="WhatsApp" style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }} /> WhatsApp
+              </a>
+            </div>
           </div>
         </div>
         <div style={{ borderTop: '1px solid #334155', marginTop: '3rem', paddingTop: '1.5rem', textAlign: 'center', color: '#64748b' }}>
@@ -173,26 +175,37 @@ const Footer = () => {
            }
            .footer-grid > div:nth-child(2) {
              display: flex;
-             flex-wrap: wrap;
-             gap: 0.5rem;
+             flex-direction: column;
+             align-items: center;
+             width: 100%;
            }
            .footer-grid > div:nth-child(2) h4 {
-             flex: 1 1 100%;
-             margin-bottom: 0.5rem !important;
+             text-align: center;
+             justify-content: center;
+             width: 100%;
+             border-bottom: none !important;
+             margin-bottom: 1rem !important;
+           }
+           .footer-grid > div:nth-child(2) .social-links-wrapper {
+             display: flex;
+             flex-direction: column;
+             gap: 0.75rem;
+             width: 100%;
+             align-items: flex-start;
            }
            .hover-text {
-             padding: 0 !important;
-             margin-bottom: 0 !important;
-             margin-right: 0.5rem;
-             font-size: 0 !important; /* Hide text, keep only icon */
+             padding: 0.25rem 0 !important;
+             margin: 0 !important;
+             font-size: 0.9rem !important; 
            }
            .hover-text img {
-             width: 25px !important;
-             height: 25px !important;
+             width: 35px !important;
+             height: 35px !important;
+             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
            }
            div[style*='margin-top: 3rem'] {
-             margin-top: 1rem !important;
-             padding-top: 0.75rem !important;
+             margin-top: 1.5rem !important;
+             padding-top: 1rem !important;
              font-size: 0.75rem;
            }
         }
