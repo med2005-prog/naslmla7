@@ -12,9 +12,9 @@ export const ProductsProvider = ({ children }) => {
   const [categories, setCategories] = useState(() => {
     try {
         const saved = localStorage.getItem('app_categories_cache');
-        return saved ? JSON.parse(saved) : ["عام"];
+        return saved ? JSON.parse(saved) : [];
     } catch {
-        return ["عام"];
+        return [];
     }
   });
 

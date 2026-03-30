@@ -81,7 +81,7 @@ const ProductList = ({ products, handleEdit, handleDelete, setShowForm }) => {
                 )}
               </div>
               <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                {(product.category && product.category !== 'عام') && (
+                {(product.category && product.category !== '') && (
                   <span style={{
                     display: 'inline-block',
                     background: 'rgba(25, 83, 157, 0.1)',

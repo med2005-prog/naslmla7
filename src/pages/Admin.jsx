@@ -26,7 +26,7 @@ const Admin = () => {
 
   const handleDeleteCategory = (cat) => {
     if (window.confirm(`سوف تحذف فئة "${cat}". هل أنت متأكد؟ (المنتجات ستتحول لـ "الكل")`)) {
-       const updatedProducts = products.map(p => (p.category || 'عام') === cat ? { ...p, category: 'الكل' } : p);
+       const updatedProducts = products.map(p => (p.category || '') === cat ? { ...p, category: 'الكل' } : p);
        saveProducts(updatedProducts);
        const newList = categories.filter(c => c !== cat);
        setCategories(newList);
@@ -50,7 +50,7 @@ const Admin = () => {
     price: '',
     description: '',
     fullDescription: '',
-    category: 'عام',
+    category: '',
     image: '',
     images: [],
     videoUrl: '',
@@ -70,7 +70,7 @@ const Admin = () => {
       setLoading(true);
       try {
           const apiProducts = await fetchProducts();
-          const userProducts = apiProducts.filter(p => !p.createdBy || true); 
+          const userProducts = apiProducts.filter(p => p.name !== '__GLOBAL_CATEGORIES__'); 
           setProducts(userProducts);
       } catch (err) {
           console.error("Failed loading from DB, fallback to context", err);
@@ -197,7 +197,7 @@ const Admin = () => {
 
     const processedFormData = {
       ...formData,
-      category: formData.category || 'عام',
+      category: formData.category || '',
       image: finalImage,
       images: finalImages,
       videoUrl: formData.videoUrl || '',
@@ -263,7 +263,7 @@ const Admin = () => {
       price: product.price || '',
       description: product.description || '',
       fullDescription: product.fullDescription || '',
-      category: product.category || 'عام',
+      category: product.category || '',
       image: product.image || '',
       images: product.images || (product.image ? [product.image] : []),
       videoUrl: product.videoUrl || '',
@@ -421,7 +421,7 @@ const Admin = () => {
         )}
 
         <ProductList 
-          products={filterCategory === 'الكل' ? products : products.filter(p => (p.category || 'عام') === filterCategory)} 
+          products={filterCategory === 'الكل' ? products : products.filter(p => (p.category || '') === filterCategory)} 
           handleEdit={handleEdit} 
           handleDelete={handleDelete} 
           setShowForm={setShowForm} 

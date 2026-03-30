@@ -94,7 +94,7 @@ const ProductForm = ({
             </label>
             <select
               name="category"
-              value={formData.category || (categories.length > 0 ? categories[0] : 'عام')}
+              value={formData.category || (categories.length > 0 ? categories[0] : '')}
               onChange={handleInputChange}
               style={{
                 width: '100%',
