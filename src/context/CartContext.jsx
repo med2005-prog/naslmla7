@@ -18,15 +18,15 @@ export const CartProvider = ({ children }) => {
       console.error('Error saving cart to localStorage:', error);
     }
   }, [items]);
-  const addToCart = (product) => {
+  const addToCart = (product, quantity = 1) => {
     setItems(prev => {
       const existingIndex = prev.findIndex(item => (item._id || item.id) === (product._id || product.id));
       if (existingIndex >= 0) {
         const newItems = [...prev];
-        newItems[existingIndex] = { ...newItems[existingIndex], quantity: (newItems[existingIndex].quantity || 1) + 1 };
+        newItems[existingIndex] = { ...newItems[existingIndex], quantity: (newItems[existingIndex].quantity || 1) + quantity };
         return newItems;
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, { ...product, quantity: quantity }];
     });
     setIsAnimating(true);
     setTimeout(() => setIsAnimating(false), 600);
@@ -35,7 +35,20 @@ export const CartProvider = ({ children }) => {
     setItems([]);
   };
   const removeFromCart = (productId) => {
-    setItems(prevItems => prevItems.filter(item => (item._id || item.id) !== productId));
+    setItems(prevItems => {
+      const existingIndex = prevItems.findIndex(item => (item._id || item.id) === productId);
+      if (existingIndex >= 0) {
+        const item = prevItems[existingIndex];
+        if (item.quantity > 1) {
+          const newItems = [...prevItems];
+          newItems[existingIndex] = { ...item, quantity: item.quantity - 1 };
+          return newItems;
+        } else {
+          return prevItems.filter((_, index) => index !== existingIndex);
+        }
+      }
+      return prevItems;
+    });
   };
   const cartCount = items.reduce((total, item) => total + (item.quantity || 1), 0);
 

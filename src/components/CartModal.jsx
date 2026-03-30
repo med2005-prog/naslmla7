@@ -3,7 +3,7 @@ import { X, ShoppingBag, Trash2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import CheckoutModal from './CheckoutModal';
 const CartModal = ({ isOpen, onClose }) => {
-  const { items, removeFromCart } = useCart();
+  const { items, removeFromCart, addToCart } = useCart();
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   if (!isOpen) return null;
   const total = items.reduce((sum, item) => {
@@ -37,11 +37,7 @@ const CartModal = ({ isOpen, onClose }) => {
                   <div style={{ flex: 1 }}>
                     <h4 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       {item.name}
-                      {item.quantity > 1 && (
-                        <span style={{ fontSize: '0.8rem', background: 'var(--primary)', color: 'white', padding: '0.1rem 0.5rem', borderRadius: '1rem' }}>
-                           x{item.quantity}
-                        </span>
-                      )}
+
                     </h4>
                     {item.hasPromo && item.promoPrice && item.promoEndDate && new Date(item.promoEndDate) > new Date() ? (
                         <div className="price">
@@ -53,13 +49,21 @@ const CartModal = ({ isOpen, onClose }) => {
                         <p className="price"><span className="numerals">{item.price}</span> MAD</p>
                     )}
                   </div>
-                  <button 
-                    onClick={() => removeFromCart(item._id || item.id)}
-                    style={{ background: 'none', border: 'none', color: '#ef4444', padding: '0.5rem', cursor: 'pointer', transition: 'color 0.2s' }}
-                    title="حذف من السلة"
-                  >
-                    <Trash2 size={20} />
-                  </button>
+                  <div className="cart-quantity-controls">
+                    <button 
+                      onClick={() => removeFromCart(item._id || item.id)}
+                      className="qty-btn"
+                    >
+                      -
+                    </button>
+                    <span className="qty-number">{item.quantity || 1}</span>
+                    <button 
+                      onClick={() => addToCart(item)}
+                      className="qty-btn"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
               ))
             )}
@@ -186,6 +190,44 @@ const CartModal = ({ isOpen, onClose }) => {
             margin-top: 2rem;
             padding-top: 1.5rem;
             border-top: 1px solid var(--border);
+          }
+          .cart-quantity-controls {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 2rem;
+            padding: 0.25rem;
+            gap: 0.5rem;
+          }
+          .qty-btn {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: var(--background);
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--primary);
+            transition: all 0.2s;
+          }
+          .qty-btn:hover {
+            background: var(--primary);
+            color: white;
+          }
+          .qty-number {
+            font-weight: 800;
+            min-width: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+          }
+          .cart-item h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+            color: var(--text-main);
           }
           .cart-total {
             display: flex;

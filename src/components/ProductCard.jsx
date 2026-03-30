@@ -36,11 +36,21 @@ const ProductCard = ({ product }) => {
       return () => clearInterval(interval);
     }
   }, [isPromoActive, product.promoEndDate]);
+  const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    addToCart(product, quantity);
+    setQuantity(1); // Reset quantity after adding
+  };
+
   return (
     <div 
       className="card product-card"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => { setIsHovered(false); setCurrentImageIndex(0); }}
+      style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
     >
       <Link to={`/product/${product._id}`} style={{ display: 'block', overflow: 'hidden', position: 'relative' }}>
         <div className="image-container" style={{ aspectRatio: '1/1', overflow: 'hidden' }}>
@@ -58,14 +68,14 @@ const ProductCard = ({ product }) => {
           {isPromoActive && (
             <div className="product-card-badge-promo" style={{
               position: 'absolute',
-              top: '1rem',
-              right: '1rem',
+              top: '0.5rem',
+              right: '0.5rem',
               background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
               color: 'white',
-              padding: '0.5rem 1rem',
+              padding: '0.35rem 0.75rem',
               borderRadius: '2rem',
               fontWeight: 700,
-              fontSize: '0.875rem',
+              fontSize: '0.7rem',
               boxShadow: '0 4px 12px rgba(239, 68, 68, 0.4)',
               zIndex: 10
             }}>
@@ -74,76 +84,84 @@ const ProductCard = ({ product }) => {
           )}
           <div className="product-card-badge-cod" style={{
             position: 'absolute',
-            bottom: '0.75rem',
-            left: '0.75rem',
+            bottom: '0.5rem',
+            left: '0.5rem',
             background: 'rgba(255, 255, 255, 0.9)',
             backdropFilter: 'blur(4px)',
             color: '#166534',
-            padding: '0.35rem 0.75rem',
+            padding: '0.25rem 0.5rem',
             borderRadius: '0.5rem',
             fontWeight: 700,
-            fontSize: '0.75rem',
+            fontSize: '0.65rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.35rem',
+            gap: '0.25rem',
             boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
             zIndex: 10
           }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><path d="M6 15h.01"/><path d="M10 15h.01"/></svg>
-            <span className="cod-text">الدفع عند التوصيل</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><path d="M6 15h.01"/><path d="M10 15h.01"/></svg>
+            <span className="cod-text">COD</span>
           </div>
         </div>
       </Link>
-      <div className="product-card-body" style={{ padding: '1.5rem' }}>
-        <h3 className="product-card-title" style={{ fontSize: '1.25rem', marginBottom: '0.5rem', fontWeight: 700 }}>{product.name}</h3>
-        <p className="product-card-description" style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem', lineHeight: '1.5', height: '3em', overflow: 'hidden' }}>
-          {product.description}
-        </p>
+      <div className="product-card-body" style={{ padding: '0.75rem', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+        <h3 className="product-card-title" style={{ fontSize: '0.95rem', marginBottom: '0.25rem', fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.name}</h3>
+        
         {/* Price Display */}
         {isPromoActive ? (
-          <div style={{ marginBottom: '1rem' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', marginBottom: '0.5rem' }}>
-              <span className="product-card-price" style={{ fontSize: '1.5rem', fontWeight: 800, color: '#ef4444', lineHeight: 1.2 }}>
-                <span className="numerals">{product.promoPrice}</span> <span style={{ fontSize: '0.9rem' }}>MAD</span>
+          <div style={{ marginBottom: '0.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <span className="product-card-price" style={{ fontSize: '1.1rem', fontWeight: 800, color: '#ef4444' }}>
+                <span className="numerals">{product.promoPrice}</span> <span style={{ fontSize: '0.7rem' }}>MAD</span>
               </span>
-              <span style={{ 
-                fontSize: '0.875rem', 
-                color: 'var(--text-secondary)', 
-                fontWeight: 500
-              }}>
-                <span className="numerals" style={{ textDecoration: 'line-through' }}>{product.price}</span> MAD
+              <span style={{ fontSize: '0.75rem', color: '#94a3b8', textDecoration: 'line-through' }}>
+                <span className="numerals">{product.price}</span>
               </span>
             </div>
-            {timeRemaining && !timeRemaining.expired && (
-              <p style={{
-                fontSize: '0.75rem',
-                color: timeRemaining.urgent ? '#dc2626' : '#92400e',
-                background: timeRemaining.urgent ? '#fee2e2' : '#fef3c7',
-                padding: '0.25rem 0.5rem',
-                borderRadius: '0.25rem',
-                display: 'inline-block',
-                fontWeight: timeRemaining.urgent ? 700 : 600,
-                animation: timeRemaining.urgent ? 'pulse 2s infinite' : 'none',
-                maxWidth: '100%',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap'
-              }}>
-                {timeRemaining.text}
-              </p>
-            )}
           </div>
         ) : (
-          <div style={{ marginBottom: '1rem' }}>
-            <span className="product-card-price" style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)' }}>
-              <span className="numerals">{product.price}</span> <span style={{ fontSize: '0.9rem' }}>MAD</span>
+          <div style={{ marginBottom: '0.5rem' }}>
+            <span className="product-card-price" style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--primary)' }}>
+              <span className="numerals">{product.price}</span> <span style={{ fontSize: '0.75rem' }}>MAD</span>
             </span>
           </div>
         )}
-        <Link to={`/product/${product._id}`} className="btn btn-primary product-card-btn" style={{ width: '100%', justifyContent: 'center' }}>
-          <Plus size={18} className="btn-icon" />
-          عرض التفاصيل
-        </Link>
+
+        <div style={{ marginTop: 'auto' }}>
+          {/* Quantity Selection Row */}
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between', 
+            marginBottom: '0.5rem',
+            background: '#f8fafc',
+            borderRadius: '0.5rem',
+            padding: '0.2rem'
+          }}>
+            <button 
+              onClick={() => setQuantity(q => Math.max(1, q - 1))}
+              style={{ padding: '0.25rem 0.5rem', border: 'none', background: 'white', borderRadius: '0.35rem', cursor: 'pointer', fontWeight: 'bold' }}
+            >
+              -
+            </button>
+            <span style={{ fontWeight: 800, fontSize: '0.85rem' }}>{quantity}</span>
+            <button 
+              onClick={() => setQuantity(q => q + 1)}
+              style={{ padding: '0.25rem 0.5rem', border: 'none', background: 'white', borderRadius: '0.35rem', cursor: 'pointer', fontWeight: 'bold' }}
+            >
+              +
+            </button>
+          </div>
+
+          <button 
+            onClick={handleAddToCart}
+            className="btn btn-primary" 
+            style={{ width: '100%', fontSize: '0.75rem', padding: '0.5rem', justifyContent: 'center', gap: '0.25rem' }}
+          >
+            <Plus size={14} />
+            أضف للسلة
+          </button>
+        </div>
       </div>
       <style>{`
         .product-card:hover img {
