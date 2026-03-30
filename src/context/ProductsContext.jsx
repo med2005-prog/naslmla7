@@ -8,10 +8,22 @@ export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Automatically derive unique categories from the products list to ensure global sync across all users
-  const categories = products && products.length > 0 
-    ? [...new Set(products.map(p => p.category || 'الكل'))].filter(cat => cat !== 'الكل')
-    : [];
+  // Persist category list for user control
+  const [categories, setCategories] = useState(() => {
+    try {
+      const saved = localStorage.getItem('app_categories');
+      // If we have products with categories not in the saved list, we should include them too
+      const productCats = products && products.length > 0 ? [...new Set(products.map(p => p.category || 'عام'))] : [];
+      const merged = saved ? JSON.parse(saved) : ["عام"];
+      return [...new Set([...merged, ...productCats])].filter(cat => cat && cat !== "الكل");
+    } catch {
+      return ["عام"];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('app_categories', JSON.stringify(categories));
+  }, [categories]);
 
   const loadProducts = useCallback(async () => {
     setLoading(true);
@@ -64,7 +76,7 @@ export const ProductsProvider = ({ children }) => {
   }, [loadProducts]);
 
   return (
-    <ProductsContext.Provider value={{ products, loading, setProducts, loadProducts, categories }}>
+    <ProductsContext.Provider value={{ products, loading, setProducts, loadProducts, categories, setCategories }}>
       {children}
     </ProductsContext.Provider>
   );
