@@ -1,4 +1,4 @@
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXCHVuRF_4SOD-Ma1Jt5FcDlWXe6de87fd2wvVeeoW4I1cVfBUfwjymUiFDAJzTryA/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx95NpZOifNgORqEOuyTdRJrBBbaHA4v3ly1ItzJdHlUQMWGMRJ2-czDXwUV1mrxxfB/exec';
 
 export const sendOrderToGoogleSheets = async (orderData) => {
   try {
