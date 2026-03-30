@@ -36,7 +36,7 @@ const Home = () => {
             كل ما تبحث عنه في مكان واحد
           </span>
           <h1 className="hero-title" style={{ color: 'white', textShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
-            أفضل المنتجات لـ <span style={{ color: '#ffd700' }}>احتياجاتك</span> اليومية
+            أفضل <span style={{ color: '#ffd700' }}>المنتجات</span> لـ احتياجاتك اليومية
           </h1>
 
           <div style={{ display: 'flex', justifyContent: 'center' }}>

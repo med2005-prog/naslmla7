@@ -172,7 +172,7 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
               <div className="success-circle"></div>
               <CheckCircle size={80} className="check-icon" />
             </div>
-            <h2 style={{ fontSize: '1.8rem', fontWeight: '800', color: '#059669', marginBottom: '0.75rem' }}>شكراً ليكم على ثقتكم في naslmla7 ❤️</h2>
+            <h2 style={{ fontSize: '1.8rem', fontWeight: '800', color: '#059669', marginBottom: '0.75rem' }}>شكراً على ثقتكم في Naslmla7 ❤️</h2>
             <p style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-main)', lineHeight: '1.6', marginBottom: '1rem' }}>
               توصلنا بالطلب ديالكم بنجاح. فريقنا غادي يتواصل معاكم في مكالمة هاتفية في أقل من 20 ساعة باش نأكدوا المعلومات ونصيفطوا ليكم السلعة.
             </p>
@@ -188,14 +188,11 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
               position: 'relative',
               overflow: 'hidden'
             }}>
-               <div style={{ position: 'relative', zIndex: 1 }}>
-                <p style={{ fontWeight: '800', fontSize: '1.1rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-                  ⭐ نظام الأولوية الحصرية
-                </p>
-                <p style={{ fontSize: '0.95rem', opacity: '0.9', lineHeight: '1.6' }}>
-                  نظرًا للطلب المتزايد، قمنا بحجز منتجك فوراً ومنحه <strong>أولوية التجهيز</strong>. طلبك محمي الآن وسيتم الاتصال بك خلال دقائق لتأكيد التوصيل.
-                </p>
-              </div>
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                  <p style={{ fontSize: '1.15rem', opacity: '1', lineHeight: '1.6', textAlign: 'center', fontWeight: '800' }}>
+                    نظرًا للطلب المتزايد، قمنا بحجز منتجك فوراً ومنحه <strong>أولوية التجهيز القصوى</strong>. طلبك محمي الآن وسيتم الاتصال بك خلال دقائق لتأكيد التوصيل.
+                  </p>
+                </div>
               <div style={{ position: 'absolute', top: '-20px', right: '-20px', opacity: 0.1 }}>
                 <CheckCircle size={100} />
               </div>
