@@ -27,16 +27,16 @@ const Home = () => {
           </div>
           <span className="hero-badge" style={{ 
             display: 'inline-block', 
-            background: 'rgba(25, 83, 157, 0.1)', 
-            color: 'var(--primary)', 
+            background: 'rgba(255, 255, 255, 0.2)', 
+            color: 'white', 
             borderRadius: '2rem', 
             fontWeight: 700,
-            border: '1px solid rgba(25, 83, 157, 0.2)'
+            border: '1px solid rgba(255, 255, 255, 0.3)'
           }}>
             كل ما تبحث عنه في مكان واحد
           </span>
-          <h1 className="hero-title">
-            أفضل المنتجات لـ <span className="text-highlight">احتياجاتك</span> اليومية
+          <h1 className="hero-title" style={{ color: 'white', textShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
+            أفضل المنتجات لـ <span style={{ color: '#ffd700' }}>احتياجاتك</span> اليومية
           </h1>
 
           <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -54,9 +54,9 @@ const Home = () => {
           {/* Categories Filter */}
           <div className="categories-scroll" style={{
             display: 'flex',
-            gap: '0.75rem',
+            gap: '0.85rem',
             overflowX: 'auto',
-            paddingBottom: '1rem',
+            padding: '0.5rem 0.25rem 1.5rem',
             marginBottom: '2rem',
             scrollbarWidth: 'none',
           }}>
@@ -65,15 +65,20 @@ const Home = () => {
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 style={{
-                  padding: '0.5rem 1.5rem',
+                  padding: '0.6rem 1.75rem',
                   borderRadius: '2rem',
-                  border: 'none',
-                  background: activeCategory === cat ? 'var(--primary)' : 'rgba(25, 83, 157, 0.1)',
-                  color: activeCategory === cat ? 'white' : 'var(--primary)',
-                  fontWeight: 600,
+                  border: activeCategory === cat ? 'none' : '1px solid rgba(25, 83, 157, 0.2)',
+                  background: activeCategory === cat 
+                    ? 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)' 
+                    : 'white',
+                  color: activeCategory === cat ? 'white' : 'var(--text-main)',
+                  boxShadow: activeCategory === cat 
+                    ? '0 10px 15px -3px rgba(25, 83, 157, 0.3)' 
+                    : '0 2px 5px rgba(0,0,0,0.05)',
+                  fontWeight: activeCategory === cat ? 700 : 500,
                   cursor: 'pointer',
                   whiteSpace: 'nowrap',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
                 }}
               >
                 {cat}

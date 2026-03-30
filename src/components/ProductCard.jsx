@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import { getPromoTimeRemaining } from '../utils/timeUtils';
+import { useCart } from '../context/CartContext';
 const ProductCard = ({ product }) => {
   const [timeRemaining, setTimeRemaining] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
