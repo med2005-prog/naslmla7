@@ -3,7 +3,14 @@ import ProductCard from '../components/ProductCard';
 import { ShoppingBag } from 'lucide-react';
 import { useProducts } from '../context/ProductsContext';
 const Home = () => {
-  const { products, loading } = useProducts();
+  const { products, loading, categories: contextCategories } = useProducts();
+  const [activeCategory, setActiveCategory] = React.useState("الكل");
+  const categories = ["الكل", ...(contextCategories || [])];
+
+  const filteredProducts = activeCategory === "الكل" 
+    ? products 
+    : products.filter(p => (p.category || 'عام') === activeCategory);
+
   return (
     <>
       {/* Hero Section */}
@@ -43,6 +50,37 @@ const Home = () => {
       {/* Products Section */}
       <section id="products" className="products-section" style={{ padding: '5rem 0' }}>
         <div className="container">
+          
+          {/* Categories Filter */}
+          <div className="categories-scroll" style={{
+            display: 'flex',
+            gap: '0.75rem',
+            overflowX: 'auto',
+            paddingBottom: '1rem',
+            marginBottom: '2rem',
+            scrollbarWidth: 'none',
+          }}>
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                style={{
+                  padding: '0.5rem 1.5rem',
+                  borderRadius: '2rem',
+                  border: 'none',
+                  background: activeCategory === cat ? 'var(--primary)' : 'rgba(25, 83, 157, 0.1)',
+                  color: activeCategory === cat ? 'white' : 'var(--primary)',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
           <div className="grid-products fade-in">
             {loading ? (
               [...Array(6)].map((_, idx) => (
@@ -55,8 +93,8 @@ const Home = () => {
                   border: '1px solid #e2e8f0'
                 }}></div>
               ))
-            ) : products.length > 0 ? (
-              products.map(product => (
+            ) : filteredProducts.length > 0 ? (
+              filteredProducts.map(product => (
                 <ProductCard key={product.id} product={product} />
               ))
             ) : (
@@ -162,6 +200,9 @@ const Home = () => {
             opacity: 1;
             background-color: #e2e8f0;
           }
+        }
+        .categories-scroll::-webkit-scrollbar {
+          display: none;
         }
       `}</style>
     </>

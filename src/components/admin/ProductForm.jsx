@@ -9,7 +9,8 @@ const ProductForm = ({
   handleImageUpload,
   handleSubmit,
   editingProduct,
-  handleCancel
+  handleCancel,
+  categories = []
 }) => {
   return (
     <div style={{
@@ -84,6 +85,31 @@ const ProductForm = ({
               }}
               required
             />
+          </div>
+
+          {/* الفئة */}
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>
+              الفئة
+            </label>
+            <select
+              name="category"
+              value={formData.category || (categories.length > 0 ? categories[0] : 'عام')}
+              onChange={handleInputChange}
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                border: '2px solid var(--border)',
+                borderRadius: '0.5rem',
+                fontSize: '1rem',
+                background: 'white'
+              }}
+              required
+            >
+              {categories.map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
           </div>
 
           {/* الوصف المختصر */}

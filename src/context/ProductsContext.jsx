@@ -8,6 +8,20 @@ export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const defaultCategories = ["عام", "إلكترونيات", "ملابس", "أحذية", "عطور ومستحضرات تجميل", "ساعات ومجوهرات", "اكسسوارات", "منزل ومطبخ"];
+  const [categories, setCategories] = useState(() => {
+    try {
+      const saved = localStorage.getItem('app_categories');
+      return saved ? JSON.parse(saved) : defaultCategories;
+    } catch {
+      return defaultCategories;
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('app_categories', JSON.stringify(categories));
+  }, [categories]);
+
   const loadProducts = useCallback(async () => {
     setLoading(true);
     try {
@@ -59,7 +73,7 @@ export const ProductsProvider = ({ children }) => {
   }, [loadProducts]);
 
   return (
-    <ProductsContext.Provider value={{ products, loading, setProducts, loadProducts }}>
+    <ProductsContext.Provider value={{ products, loading, setProducts, loadProducts, categories, setCategories }}>
       {children}
     </ProductsContext.Provider>
   );

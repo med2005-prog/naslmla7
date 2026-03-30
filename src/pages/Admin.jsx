@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, LogOut } from 'lucide-react';
+import { Plus, LogOut, Settings, Trash2, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, logoutUser, isUserAuthenticated } from '../utils/auth';
 import { useProducts } from '../context/ProductsContext';
@@ -11,13 +11,34 @@ import ProductList from '../components/admin/ProductList';
 
 const Admin = () => {
   const navigate = useNavigate();
-  const { setProducts: setGlobalProducts } = useProducts();
+  const { setProducts: setGlobalProducts, categories, setCategories } = useProducts();
+  const [showCategoryManager, setShowCategoryManager] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
+
+  const handleAddCategory = () => {
+    if (newCategoryName.trim() && !categories.includes(newCategoryName.trim())) {
+      setCategories([...categories, newCategoryName.trim()]);
+      setNewCategoryName('');
+    }
+  };
+
+  const handleDeleteCategory = (cat) => {
+    if(categories.length > 1) {
+       if (window.confirm(`هل أنت متأكد من حذف فئة "${cat}"؟ سيتم الاحتفاظ بالمنتجات ولكن تأكد من تعديل فئتها لاحقاً.`)) {
+           setCategories(categories.filter(c => c !== cat));
+           if (filterCategory === cat) setFilterCategory('الكل');
+       }
+    } else {
+       alert("لا يمكنك حذف جميع الفئات!");
+    }
+  };
   const [isAuthenticated, setIsAuthenticated] = useState(isUserAuthenticated());
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [products, setProducts] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [filterCategory, setFilterCategory] = useState('الكل');
   
   // Loading state
   const [loading, setLoading] = useState(false);
@@ -174,6 +195,7 @@ const Admin = () => {
 
     const processedFormData = {
       ...formData,
+      category: formData.category && categories.includes(formData.category) ? formData.category : (categories.length > 0 ? categories[0] : 'عام'),
       image: finalImage,
       images: finalImages,
       videoUrl: formData.videoUrl || '',
@@ -317,7 +339,27 @@ const Admin = () => {
               إدارة المنتجات ({products.length} منتج)
             </p>
           </div>
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+            <select
+              value={filterCategory}
+              onChange={(e) => setFilterCategory(e.target.value)}
+              style={{
+                padding: '0.6rem',
+                borderRadius: '0.5rem',
+                border: '1px solid var(--border)',
+                background: 'white',
+                fontWeight: 'bold',
+                minWidth: '150px'
+              }}
+            >
+              <option value="الكل">جميع الفئات</option>
+              {categories && categories.map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
+            <button onClick={() => setShowCategoryManager(true)} className="btn" style={{ background: '#f8fafc', border: '1px solid var(--border)', color: 'var(--text-primary)' }}>
+              <Settings size={20} /> إدارة الفئات
+            </button>
             <button onClick={() => setShowForm(true)} className="btn btn-primary">
               <Plus size={20} /> إضافة منتج جديد
             </button>
@@ -338,12 +380,46 @@ const Admin = () => {
               handleSubmit={handleSubmit}
               editingProduct={editingProduct}
               handleCancel={handleCancel}
+              categories={categories}
             />
           </div>
         )}
 
+        {showCategoryManager && (
+          <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
+            <div style={{ background: 'white', borderRadius: '1rem', padding: '2rem', width: '100%', maxWidth: '500px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>إدارة الفئات</h2>
+                <button onClick={() => setShowCategoryManager(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><X size={24} /></button>
+              </div>
+              
+              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '2rem' }}>
+                <input 
+                  type="text" 
+                  value={newCategoryName} 
+                  onChange={(e) => setNewCategoryName(e.target.value)} 
+                  placeholder="اسم الفئة الجديدة" 
+                  style={{ flex: 1, padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid var(--border)' }}
+                />
+                <button onClick={handleAddCategory} className="btn btn-primary">إضافة</button>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '300px', overflowY: 'auto' }}>
+                {categories && categories.map(cat => (
+                  <div key={cat} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.75rem', background: '#f8fafc', borderRadius: '0.5rem' }}>
+                    <span style={{ fontWeight: 600 }}>{cat}</span>
+                    <button onClick={() => handleDeleteCategory(cat)} style={{ color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer' }}>
+                      <Trash2 size={20} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         <ProductList 
-          products={products} 
+          products={filterCategory === 'الكل' ? products : products.filter(p => (p.category || 'عام') === filterCategory)} 
           handleEdit={handleEdit} 
           handleDelete={handleDelete} 
           setShowForm={setShowForm} 

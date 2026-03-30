@@ -81,6 +81,21 @@ const ProductList = ({ products, handleEdit, handleDelete, setShowForm }) => {
                 )}
               </div>
               <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                {(product.category && product.category !== 'عام') && (
+                  <span style={{
+                    display: 'inline-block',
+                    background: 'rgba(25, 83, 157, 0.1)',
+                    color: 'var(--primary)',
+                    padding: '0.25rem 0.5rem',
+                    borderRadius: '0.25rem',
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    marginBottom: '0.5rem',
+                    alignSelf: 'flex-start'
+                  }}>
+                    {product.category}
+                  </span>
+                )}
                 <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>
                   {product.name}
                 </h3>
