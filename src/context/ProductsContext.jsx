@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { products as defaultProducts } from '../data/products';
-import { fetchProducts } from '../services/api';
+import { fetchProducts, updateProduct, createProduct } from '../services/api';
 
 const ProductsContext = createContext();
 
