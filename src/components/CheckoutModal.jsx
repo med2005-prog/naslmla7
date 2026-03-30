@@ -172,7 +172,7 @@ const CheckoutModal = ({ product, isOpen, onClose }) => {
               <div className="success-circle"></div>
               <CheckCircle size={80} className="check-icon" />
             </div>
-            <h2 style={{ fontSize: '1.8rem', fontWeight: '800', color: '#059669', marginBottom: '0.75rem' }}>شكراً على ثقتكم في Naslmla7 ❤️</h2>
+            <h2 style={{ fontSize: '1.8rem', fontWeight: '800', color: '#059669', marginBottom: '0.75rem' }}>تشكركم على تقتكم Naslmla7  ❤️</h2>
             <p style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-main)', lineHeight: '1.6', marginBottom: '1rem' }}>
               توصلنا بالطلب ديالكم بنجاح. فريقنا غادي يتواصل معاكم في مكالمة هاتفية في أقل من 20 ساعة باش نأكدوا المعلومات ونصيفطوا ليكم السلعة.
             </p>
