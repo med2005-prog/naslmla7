@@ -198,7 +198,7 @@ const Admin = () => {
 
     const processedFormData = {
       ...formData,
-      category: formData.category && categories.includes(formData.category) ? formData.category : (categories.length > 0 ? categories[0] : 'عام'),
+      category: formData.category || 'عام',
       image: finalImage,
       images: finalImages,
       videoUrl: formData.videoUrl || '',
