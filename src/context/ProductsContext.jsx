@@ -8,18 +8,10 @@ export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [categories, setCategories] = useState(() => {
-    try {
-      const saved = localStorage.getItem('app_categories');
-      return saved ? JSON.parse(saved) : ["عام"];
-    } catch {
-      return ["عام"];
-    }
-  });
-
-  useEffect(() => {
-    localStorage.setItem('app_categories', JSON.stringify(categories));
-  }, [categories]);
+  // Automatically derive unique categories from the products list to ensure global sync across all users
+  const categories = products && products.length > 0 
+    ? [...new Set(products.map(p => p.category || 'الكل'))].filter(cat => cat !== 'الكل')
+    : [];
 
   const loadProducts = useCallback(async () => {
     setLoading(true);
@@ -72,7 +64,7 @@ export const ProductsProvider = ({ children }) => {
   }, [loadProducts]);
 
   return (
-    <ProductsContext.Provider value={{ products, loading, setProducts, loadProducts, categories, setCategories }}>
+    <ProductsContext.Provider value={{ products, loading, setProducts, loadProducts, categories }}>
       {children}
     </ProductsContext.Provider>
   );
