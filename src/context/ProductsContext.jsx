@@ -9,7 +9,15 @@ export const ProductsProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Categories state
-  const [categories, setCategories] = useState(["عام"]);
+  const [categories, setCategories] = useState(() => {
+    // Initial sync from local storage for instant UI, then overwrite from DB
+    try {
+        const saved = localStorage.getItem('app_categories_cache');
+        return saved ? JSON.parse(saved) : ["عام"];
+    } catch {
+        return ["عام"];
+    }
+  });
 
   const loadProducts = useCallback(async () => {
     setLoading(true);
@@ -23,6 +31,8 @@ export const ProductsProvider = ({ children }) => {
         if (categoriesConfig && categoriesConfig.description) {
             try {
                 dbCategories = JSON.parse(categoriesConfig.description);
+                // Sync to local cache for persistence across refreshes
+                localStorage.setItem('app_categories_cache', JSON.stringify(dbCategories));
             } catch (e) {
                 console.error("Failed to parse categories from DB", e);
             }
@@ -38,7 +48,9 @@ export const ProductsProvider = ({ children }) => {
             setProducts(defaultProducts);
         }
 
-        setCategories(dbCategories);
+        if (dbCategories && dbCategories.length > 0) {
+            setCategories(dbCategories);
+        }
 
     } catch(err) {
         console.error('Failed to load products from API', err);
@@ -51,15 +63,19 @@ export const ProductsProvider = ({ children }) => {
   // Function to sync current categories list to the database globally
   const syncCategoriesToDB = async (newList) => {
     try {
+        // Save to local cache immediately so it's there on refresh even during network lag
+        localStorage.setItem('app_categories_cache', JSON.stringify(newList));
+        
         const allProducts = await fetchProducts() || [];
+        // Ensure we find the record by exact name
         const existingConfig = allProducts.find(p => p.name === '__GLOBAL_CATEGORIES__');
         
         const configData = {
             name: '__GLOBAL_CATEGORIES__',
             description: JSON.stringify(newList),
             category: 'HIDDEN',
-            price: 0,
-            image: ''
+            price: 1, // Change to 1 to avoid potential '0' is falsy/invalid issues
+            image: 'https://via.placeholder.com/150'
         };
 
         if (existingConfig) {
@@ -67,8 +83,13 @@ export const ProductsProvider = ({ children }) => {
         } else {
             await createProduct(configData);
         }
+        
+        // Re-load to ensure everything is in sync
+        loadProducts();
+        return true;
     } catch (err) {
         console.error("Failed to sync categories to DB", err);
+        return false;
     }
   };
 
