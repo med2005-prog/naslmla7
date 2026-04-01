@@ -4,17 +4,15 @@
 // ==========================================
 // إعدادات تيليجرام (Telegram Settings)
 // ==========================================
-// ضع التوكن الخاص بالبوت الذي بإنشائه من @BotFather
-var TELEGRAM_BOT_TOKEN = "8746458811:AAElA2laUu_gtFwXC1F-ZvII1LnZJlfEM1g"; 
-// ضع معرّف المحادثة الخاص بك (عن طريق @userinfobot)
-var TELEGRAM_CHAT_ID = "5545563502"; 
+// الحساب الأول (القديم)
+var TELEGRAM_BOT_TOKEN_1 = "8746458811:AAElA2laUu_gtFwXC1F-ZvII1LnZJlfEM1g"; 
+var TELEGRAM_CHAT_ID_1 = "5545563502"; 
+
+// الحساب الثاني (الجديد)
+var TELEGRAM_BOT_TOKEN_2 = "8009216263:AAEfYklk0ZB4R3ds98npZS18vjqfpIunfmk";
+var TELEGRAM_CHAT_ID_2 = "1762866588";
 
 function sendTelegramNotification(orderData) {
-  if (TELEGRAM_BOT_TOKEN === "ضع_التوكن_هنا" || TELEGRAM_CHAT_ID === "ضع_رقم_الـ_ID_هنا") {
-    // لم يتم إعداد التيليجرام بعد، يتم التجاهل.
-    return;
-  }
-  
   var message = "🛍️ *طلب جديد من المتجر!*\n\n" +
                 "📦 *المنتج:* " + orderData.productName + "\n" +
                 "💰 *السعر:* " + orderData.productPrice + " MAD\n\n" +
@@ -23,24 +21,38 @@ function sendTelegramNotification(orderData) {
                 "📍 *العنوان:* " + orderData.address + "\n\n" +
                 "⏰ *التاريخ:* " + orderData.timestamp;
 
-  var telegramUrl = "https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage";
-  
-  var payload = {
-    "chat_id": TELEGRAM_CHAT_ID,
-    "text": message,
-    "parse_mode": "Markdown"
-  };
-  
-  var options = {
-    "method": "post",
-    "contentType": "application/json",
-    "payload": JSON.stringify(payload)
-  };
-  
-  try {
-    UrlFetchApp.fetch(telegramUrl, options);
-  } catch (e) {
-    Logger.log("فشل إرسال إشعار تيليجرام: " + e.message);
+  var accounts = [
+    { token: TELEGRAM_BOT_TOKEN_1, chatId: TELEGRAM_CHAT_ID_1 },
+    { token: TELEGRAM_BOT_TOKEN_2, chatId: TELEGRAM_CHAT_ID_2 }
+  ];
+
+  for (var i = 0; i < accounts.length; i++) {
+    var account = accounts[i];
+    
+    // تأكد من أن التوكن والـ ID صالحين قبل الإرسال
+    if (!account.token || !account.chatId || account.token.startsWith("ضع") || account.chatId.startsWith("ضع")) {
+      continue;
+    }
+
+    var telegramUrl = "https://api.telegram.org/bot" + account.token + "/sendMessage";
+    
+    var payload = {
+      "chat_id": account.chatId,
+      "text": message,
+      "parse_mode": "Markdown"
+    };
+    
+    var options = {
+      "method": "post",
+      "contentType": "application/json",
+      "payload": JSON.stringify(payload)
+    };
+    
+    try {
+      UrlFetchApp.fetch(telegramUrl, options);
+    } catch (e) {
+      Logger.log("فشل إرسال إشعار تيليجرام: " + e.message);
+    }
   }
 }
 
