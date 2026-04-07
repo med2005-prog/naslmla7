@@ -256,11 +256,15 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+  .chatbot-container {
+    right: auto;
+    left: 16px;
+    bottom: 20px;
+  }
+  
   .chatbot-window {
     width: calc(100vw - 32px);
     height: calc(100vh - 100px);
-    bottom: 80px;
-    right: 16px;
   }
 }
