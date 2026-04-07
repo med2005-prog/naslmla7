@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
 import Admin from './pages/Admin';
 import AboutUs from './pages/AboutUs';
+import Chatbot from './components/Chatbot';
 import { CartProvider } from './context/CartContext';
 import { ProductsProvider } from './context/ProductsContext';
 function App() {
@@ -20,6 +21,7 @@ function App() {
               <Route path="/about" element={<AboutUs />} />
 
             </Routes>
+            <Chatbot />
           </Layout>
         </Router>
       </ProductsProvider>
