@@ -71,9 +71,13 @@ export default async function handler(req, res) {
       await connectDB();
       const products = await Product.find({});
       if (products.length > 0) {
-        catalog = products.map(p => 
-          `- اسم المنتج: ${p.name}\n  الثمن: ${p.price} درهم\n  الوصف: ${p.description || 'لا يوجد'}`
-        ).join('\n\n');
+        catalog = products.map(p => {
+          let priceStr = `${p.price} درهم`;
+          if (p.hasPromo && p.promoPrice) {
+            priceStr = `${p.promoPrice} درهم (🔥 تخفيض! الثمن الأصلي كان ${p.price} درهم)`;
+          }
+          return `- اسم المنتج: ${p.name}\n  الثمن: ${priceStr}\n  الوصف: ${p.description || 'لا يوجد'}`;
+        }).join('\n\n');
       } else {
         catalog = 'حاليا لا توجد منتجات مسجلة في المتجر.';
       }
