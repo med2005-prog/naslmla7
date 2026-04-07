@@ -74,10 +74,10 @@ export default async function handler(req, res) {
         catalog = products.map(p => {
           let priceStr = `${p.price} درهم`;
           if (p.hasPromo && p.promoPrice) {
-            priceStr = `${p.promoPrice} درهم (🔥 تخفيض! الثمن الأصلي كان ${p.price} درهم)`;
+            priceStr = `${p.promoPrice} درهم (تخفيض من ${p.price})`;
           }
-          return `- اسم المنتج: ${p.name}\n  الثمن: ${priceStr}\n  الوصف: ${p.description || 'لا يوجد'}`;
-        }).join('\n\n');
+          return `- ${p.name} : ${priceStr}`;
+        }).join('\n');
       } else {
         catalog = 'حاليا لا توجد منتجات مسجلة في المتجر.';
       }
@@ -97,18 +97,17 @@ export default async function handler(req, res) {
 ${catalog}
 
 قواعد الإجابة الصارمة:
-- هضر بالدارجة المغربية فقط وبأسلوب محترم ومهني.
-- إذا سأل الزبون "شنو عندكم؟" أو طلب قائمة، اعرض الخدمات والمنتجات في **قائمة منظمة بـ Bullet points**.
+- هضر بالدارجة المغربية فقط وبأسلوب محترم ومهني وعملي.
+- إذا سأل الزبون "شنو عندكم؟" أو طلب قائمة المنتجات، اعطيه القائمة باختصار (كل منتج وثمنه في سطر واحد كما هو موضح أعلاه) بدون إطالة.
 - أي خدمة أخرى (مونتاج، أتمتة) قل أنها غير متوفرة حالياً.
+- **مهم جداً:** لا تقم بإعطاء روابط التواصل الاجتماعي الخاصة بالموقع أبداً إلا إذا سألك المستخدم صراحة وأراد التواصل (مثلا: "عطوني الفيسبوك" أو "كيفاش نتواصل معاكم؟").
 
-روابط التواصل الاجتماعي لـ ناس الملاح (naslmla7):
-- الواتساب (WhatsApp): https://wa.me/212709277659
+روابط التواصل الاجتماعي (للإجابة فقط عند الطلب):
+- الواتساب (WhatsApp) للطلب: https://wa.me/212709277659
 - الفيسبوك (Facebook): https://www.facebook.com/share/1ERmQ7cdY1/
 - تيك توك (TikTok): https://tiktok.com/@nas.lmla7
 - الإنستغرام (Instagram): https://www.instagram.com/nas.lmla7?igsh=OWhzemhyaWZmczE=
-- اليوتوب (YouTube): https://youtube.com/@naslmla7?si=pSVaUPYj3L3Jx_l8
-
-دائماً في نهاية الحوار، شجع الزبون يتابعنا فالسوشل ميديا (TikTok و Facebook خاصة) باش يوصلو الجديد، أو يتواصل معنا فواتساب باش يبدا الطلب ديالو.`;
+- اليوتوب (YouTube): https://youtube.com/@naslmla7?si=pSVaUPYj3L3Jx_l8`;
 
     const chatCompletion = await groq.chat.completions.create({
       messages: [
