@@ -69,7 +69,9 @@ const Chatbot = () => {
         <div className="chatbot-window">
           <div className="chatbot-header">
             <div className="chatbot-header-info">
-              <div className="chatbot-avatar">N</div>
+              <div className="chatbot-avatar" style={{ overflow: 'hidden', padding: 0, background: 'transparent', border: 'none' }}>
+                <img src="/nas_logo.png" alt="Nas lmla7" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
               <div>
                 <h3>ناس الملاح</h3>
                 <span className="chatbot-status">Online</span>
